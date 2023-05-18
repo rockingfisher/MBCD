@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app container">
     <nav class="navbar bg-dark" data-bs-theme="dark">
-      <router-link :to="{ name: 'MovieView' }">Movie</router-link>
+      <router-link :to="{ name: 'MoviesView' }">Movies</router-link>
       <router-link :to="{ name: 'CommunityView' }">Community</router-link>
     </nav>
     <router-view />
