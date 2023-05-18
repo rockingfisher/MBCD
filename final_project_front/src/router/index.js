@@ -1,17 +1,18 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import { component } from "vue/types/umd";
-import MovieView from "../views/MovieView.vue";
+import MoviesView from "../views/MoviesView.vue";
 import CommunityView from "../views/CommunityView.vue";
 import ReviewDetailView from "@/views/ReviewDetailView";
+import MovieDetailView from "@/views/MovieDetailView";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "MovieView",
-    component: MovieView,
+    name: "MoviesView",
+    component: MoviesView,
   },
   {
     path: "/communiy",
@@ -23,6 +24,11 @@ const routes = [
     name: "ReviewDetailView",
     component: ReviewDetailView,
     props: true,
+  },
+  {
+    path: "/moviedetail/",
+    name: "MovieDetailView",
+    component: MovieDetailView,
   },
 ];
 

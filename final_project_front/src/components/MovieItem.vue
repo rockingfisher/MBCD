@@ -1,6 +1,7 @@
 <template>
   <div class="col my-5" style="width: 20rem; height: 20rem">
     <div
+      @click="getMovieDetail"
       class="card text-bg-dark"
       style="width: 16rem"
       @mouseover="changOverlay"
@@ -35,6 +36,12 @@ export default {
   methods: {
     changOverlay() {
       this.overlay = !this.overlay;
+    },
+    getMovieDetail() {
+      this.$router.push({
+        name: "MovieDetailView",
+        params: { movie_title: this.movie.title },
+      });
     },
   },
 };

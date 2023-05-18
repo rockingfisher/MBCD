@@ -1,6 +1,13 @@
 <template>
-  <div class="align-middle">
-    <div class="text-bg-light p-3 border rounded w-75 h-75">
+  <div class="container text-bg-light h-1000px text-center">
+    <h1>게시판</h1>
+    <div class="row text-start">
+      <th class="col-4">게시글 번호</th>
+      <th class="col-4">게시글 제목</th>
+      <th class="col-4">작성자</th>
+    </div>
+
+    <div class="border rounded">
       <ReviewItem
         v-for="(review, index) in reviews"
         :key="index"
@@ -43,5 +50,11 @@ export default {
   },
 };
 </script>
-
-<style></style>
+<style scoped>
+.h-4px {
+  height: 4px;
+}
+.h-1000px {
+  height: 1000px;
+}
+</style>
