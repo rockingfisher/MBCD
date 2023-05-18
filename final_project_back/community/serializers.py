@@ -14,7 +14,7 @@ class CommentSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Comment
-        fields = ('id', 'content','created_at','updated_at','review_id')
+        fields = ('content','review_id')
         # read_only_fields = ('review_id',)
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -24,4 +24,4 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = ('id', 'title','username','review_set','review_count' )
+        fields = ('id', 'title','username','content','comment_set','comment_count','created_at','updated_at' )
