@@ -5,7 +5,8 @@ import MoviesView from "../views/MoviesView.vue";
 import CommunityView from "../views/CommunityView.vue";
 import ReviewDetailView from "@/views/ReviewDetailView";
 import MovieDetailView from "@/views/MovieDetailView";
-
+import CreateReviewView from "@/views/CreateReviewView";
+import UpdateReviewView from "@/views/UpdateReviewView";
 Vue.use(VueRouter);
 
 const routes = [
@@ -29,6 +30,16 @@ const routes = [
     path: "/moviedetail/",
     name: "MovieDetailView",
     component: MovieDetailView,
+  },
+  {
+    path: "/createReview",
+    name: "CreateReviewView",
+    component: CreateReviewView,
+  },
+  {
+    path: "/updateReview",
+    name: "UpdateReviewView",
+    component: UpdateReviewView,
   },
 ];
 

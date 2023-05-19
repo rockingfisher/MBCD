@@ -1,32 +1,45 @@
 <template>
-  <div>
-    <h1><th>ReviewDetail</th></h1>
+  <div class="ms-3">
+    <h1>
+      <th>제목 : {{ review?.title }}</th>
+    </h1>
+    <h4>
+      <p>글 번호 : {{ review?.id }}</p>
+    </h4>
     <hr />
-    <p>글 번호 : {{ review?.id }}</p>
-    <p>제목 : {{ review?.title }}</p>
-    <p>내용 : {{ review?.content }}</p>
+    <section class="h-500px">
+      <p>내용 : {{ review?.content }}</p>
+    </section>
+    <hr />
     <p>작성시간 : {{ review?.created_at }}</p>
-    <p>수정시간 : {{ review?.updated_at }}</p>
+    <!-- <p>수정시간 : {{ review?.updated_at }}</p> -->
     <hr />
     <h4><th>댓글 목록</th></h4>
     <hr />
-    <div v-for="(comment, index) in comments" :key="index">
+    <hr />
+    <CommentItem
+      v-for="(comment, index) in comments"
+      :key="index"
+      :comment="comment"
+      :review_id="review?.id"
+    />
+    <!-- <div v-for="(comment, index) in comments" :key="index">
       <div v-if="comment.review_id == $route.params.review_id">
         {{ comment.content }}
         <hr />
       </div>
-    </div>
+    </div> -->
     <form @submit="createcomment">
-      <label for="comment">댓글 : </label>
-      <input type="text" id="comment" v-model="comment_input" />
-      <!-- <button @submit.prevent="createcomment">제출</button> -->
+      <label for="comment_input">댓글 : </label>
+      <input type="text" id="comment_input" v-model="comment_input" />
+      <button @submit.prevent="createcomment">submit</button>
     </form>
     <hr />
-    {{ comment_input }}
   </div>
 </template>
 
 <script>
+import CommentItem from "@/components/CommentItem.vue";
 import axios from "axios";
 const API_URL = "http://127.0.0.1:8000";
 export default {
@@ -37,6 +50,9 @@ export default {
       comments: [],
       comment_input: "",
     };
+  },
+  components: {
+    CommentItem,
   },
   computed: {},
   methods: {
@@ -70,10 +86,9 @@ export default {
         });
     },
     createcomment() {
-      // const username =
       const content = this.comment_input;
       const review_id = this.$route.params.review_id;
-      console.log("댓글 생성");
+      // console.log("댓글 생성");
       axios({
         method: "post",
         url: `${API_URL}/community/reviews/${this.$route.params.review_id}/comments/`,
@@ -101,4 +116,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.h-500px {
+  height: 500px;
+}
+</style>

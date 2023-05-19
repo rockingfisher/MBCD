@@ -10,6 +10,9 @@ from . serializers import ReviewSerializer, CommentSerializer, ReviewListSeriali
 # Create your views here.
 @api_view(['GET', 'POST'])
 def review_list(request) :
+
+    user = get_object_or_404(User, pk=1)
+
     if request.method == 'GET' :
         reviews = get_list_or_404(Review)
         serializer = ReviewSerializer(reviews, many=True)
@@ -18,7 +21,7 @@ def review_list(request) :
     elif request.method == 'POST' :
         serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True) :
-            serializer.save(user=request.user)
+            serializer.save(user=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 @api_view(['GET','PUT', 'DELETE'])
@@ -81,9 +84,10 @@ def comment_create(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     user = get_object_or_404(User, pk=1)
 
-    comment = get_object_or_404(Comment, pk=review_pk)
+    # comment = get_object_or_404(Comment)
+
     serializer = CommentSerializer(data=request.data)
     # print(">>>>>>>>>")
     if serializer.is_valid(raise_exception=True):
-        serializer.save(review_id=review,user_id=user)
+        serializer.save(review_id=review, user_id=user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
