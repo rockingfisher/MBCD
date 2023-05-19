@@ -5,6 +5,9 @@ import MoviesView from "../views/MoviesView.vue";
 import CommunityView from "../views/CommunityView.vue";
 import ReviewDetailView from "@/views/ReviewDetailView";
 import MovieDetailView from "@/views/MovieDetailView";
+import SignUpView from "@/views/SignUpView";
+import ProfileView from "@/views/ProfileView";
+import LogInView from "@/views/LogInView";
 
 Vue.use(VueRouter);
 
@@ -29,6 +32,21 @@ const routes = [
     path: "/moviedetail/",
     name: "MovieDetailView",
     component: MovieDetailView,
+  },
+  {
+    path: "/signup",
+    name: "SignUpView",
+    component: SignUpView,
+  },
+  {
+    path: "/profile",
+    name: "ProfileView",
+    component: ProfileView,
+  },
+  {
+    path: '/login',
+    name: 'LogInView',
+    component: LogInView
   },
 ];
 
