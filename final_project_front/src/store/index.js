@@ -11,12 +11,17 @@ export default new Vuex.Store({
     createPersistedState(),
   ],
   state: {
+    movies: [],
     token: null,
     username: null,
     user_pk: null,
   },
   getters: {},
   mutations: {
+    GET_MOVIE(state, movies) {
+      // console.log("mutation");
+      state.movies = movies;
+    },
     SAVE_TOKEN(state, token) {
       state.token = token
       router.push({ name:'ProfileView' })
@@ -27,6 +32,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    getMovie(context) {
+      axios({
+        method: "get",
+        url: `${API_URL}/movies/home/`,
+      })
+        .then((res) => {
+          // console.log("actton");
+          context.commit("GET_MOVIE", res.data);
+        })
+        .catch((err) => console.log(err));
+    },
     signUp(context, payload) {
       const username = payload.username
       const password1 = payload.password1
