@@ -6,7 +6,9 @@ import CommunityView from "../views/CommunityView.vue";
 import ReviewDetailView from "@/views/ReviewDetailView";
 import MovieDetailView from "@/views/MovieDetailView";
 import CreateReviewView from "@/views/CreateReviewView";
-import UpdateReviewView from "@/views/UpdateReviewView";import SignUpView from "@/views/SignUpView";
+import UpdateReviewView from "@/views/UpdateReviewView";
+
+import SignUpView from "@/views/SignUpView";
 import ProfileView from "@/views/ProfileView";
 import LogInView from "@/views/LogInView";
 
@@ -33,6 +35,31 @@ const routes = [
     path: "/moviedetail/",
     name: "MovieDetailView",
     component: MovieDetailView,
+  },
+  {
+      path: "/createReview",
+    name: "CreateReviewView",
+    component: CreateReviewView,
+  },
+  {
+    path: "/updateReview",
+    name: "UpdateReviewView",
+    component: UpdateReviewView,
+  },
+  {
+    path: "/signup",
+    name: "SignUpView",
+    component: SignUpView,
+  },
+  {
+    path: "/profile",
+    name: "ProfileView",
+    component: ProfileView,
+  },
+  {
+    path: "/login",
+    name: "LogInView",
+    component: LogInView,
   },
 ];
 
