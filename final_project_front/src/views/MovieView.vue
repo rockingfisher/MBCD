@@ -4,7 +4,7 @@
       v-for="(movie, index) in movies"
       :key="index"
       :movie="movie"
-      style="width: 20rem; height: 20rem"
+      style="height: 20rem"
     />
   </div>
 </template>

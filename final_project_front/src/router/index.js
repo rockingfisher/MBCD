@@ -7,6 +7,7 @@ import ReviewDetailView from "@/views/ReviewDetailView";
 import MovieDetailView from "@/views/MovieDetailView";
 import CreateReviewView from "@/views/CreateReviewView";
 import UpdateReviewView from "@/views/UpdateReviewView";
+import RecommendView from '@/views/RecommendView';
 
 import SignUpView from "@/views/SignUpView";
 import ProfileView from "@/views/ProfileView";
@@ -61,6 +62,11 @@ const routes = [
     name: "LogInView",
     component: LogInView,
   },
+  {
+    path: "/recommend",
+    name: "RecommendView",
+    component: RecommendView
+  }
 ];
 
 const router = new VueRouter({

@@ -3,6 +3,7 @@
     <nav class="navbar bg-dark" data-bs-theme="dark">
       <router-link :to="{ name: 'MoviesView' }">Movies</router-link>
       <router-link :to="{ name: 'CommunityView' }">Community</router-link>
+      <router-link :to="{ name: 'RecommendView' }">Recommend</router-link>
     </nav>
     <router-view />
   </div>
