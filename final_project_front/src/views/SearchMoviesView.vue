@@ -3,7 +3,14 @@
     <!-- rgba(214, 230, 245, 96) -->
     <!-- rgba(245, 232, 213, 96) -->
     <!-- rgba(168, 147, 113, 66) -->
-
+    <div class="text-center mt-3">
+      <h1 v-if="search_output" style="color:white; text-shadow: 1px 1px 1px black;">
+        '{{ search_output }}' 로 검색한 결과
+        <div v-if="searchedMovies==''" class="my-5">
+          검색 결과가 없습니다
+        </div>
+      </h1>
+    </div>
     <!-- 영화 16개 표시 -->
     <div class="row h-50">
       <MovieItem
@@ -15,26 +22,33 @@
     </div>
     <br />
     <br />
-    <form @submit.prevent="search" class="text-center">
-      <div class="d-inline mx-auto">
-        <input type="text" id="serchReview" v-model="search_input" />
-        <button @click.prevent="search">검색</button>
-      </div>
-    </form>
+    <form @submit.prevent="search" class="d-flex justify-center" role="search">
+        <input
+          v-model="search_input"
+          class="form-control"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          style="width: 30%; margin-left: 30%;"
+        />
+        <button class="btn btn-outline-info" type="submit">
+          Search
+        </button>
+          </form>
     <!-- 페이지 이동 -->
     <div class="btn-cover">
-      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-        이전
+      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn btn btn-primary">
+        Prev
       </button>
 
-      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} Page</span>
 
       <button
         :disabled="pageNum >= pageCount - 1"
         @click="nextPage"
-        class="page-btn"
+        class="page-btn btn btn-primary"
       >
-        다음
+        Next
       </button>
     </div>
     <!-- 영화검색 -->
@@ -45,12 +59,13 @@
 import MovieItem from "../components/MovieItem.vue";
 
 export default {
-  name: "MovieView",
+  name: "SearchMovieView",
   data() {
     return {
       pageNum: 0,
       pageSize: 16,
       search_input: "",
+      search_output: "",
       selectedMovie: [],
       movies: [],
       searchedMovies: [],
@@ -81,28 +96,6 @@ export default {
       // console.log("getMovies");
       this.$store.dispatch("getMovie");
     },
-    getCaroselPoster() {
-      const lst = [];
-      var cnt = 0;
-      this.movies.forEach((movie) => {
-        if (cnt < 3) {
-          if (movie.vote_avg > 7.7) {
-            const URL =
-              "https://image.tmdb.org/t/p/original/" + movie.poster_path;
-            const movie_title = movie.title;
-            const data = {
-              URL,
-              movie_title,
-            };
-            lst.push(data);
-            cnt += 1;
-          }
-        } else {
-          return;
-        }
-      });
-      this.carousel_movies = lst;
-    },
 
     nextPage() {
       this.pageNum += 1;
@@ -113,11 +106,13 @@ export default {
     search() {
       if (!this.search_input) {
         this.searchedMovies = this.movies;
+        this.search_output = ''
         return;
       }
 
       const searchTerm = this.search_input.toLowerCase();
-
+      this.search_output = searchTerm
+      this.search_input = ''
       this.searchedMovies = this.movies.filter((movie) => {
         if (movie && movie.overview && movie.title) {
           return (
@@ -139,8 +134,10 @@ export default {
       // console.log(this.movies);
     }, 100);
     setTimeout(() => {
-      this.getCaroselPoster();
+      this.search_input = this.$route.params.search_input
+      this.search()
     }, 200);
+
   },
 };
 </script>

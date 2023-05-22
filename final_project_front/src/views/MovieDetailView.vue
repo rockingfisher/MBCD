@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row d-inline">
+    <div class="row my-auto">
       <header class="col-6">
         <img :src="posterUrl" class="card-img border rounded-4 m-3" alt="..." />
       </header>

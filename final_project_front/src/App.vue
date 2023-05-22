@@ -8,10 +8,7 @@
         <a
           class="navbar-brand"
           href="#"
-          style="
-            color: rgba(214, 230, 245, 96);
-            text-shadow: 1px 1px 2px rgba(74, 167, 255, 100);
-          "
+          style="color: rgba(214, 230, 245, 96);text-shadow: 1px 1px 2px rgba(74, 167, 255, 100);"
         >
           <router-link
             class="logo"
@@ -63,35 +60,28 @@
             </li>
             <li class="nav-item">
               <a class="nav-link">
-                <router-link :to="{ name: 'SearchMoviesView' }"
+                <router-link :to="{ name: 'SearchMoviesView'}"
                   >SearchMovies</router-link
                 ></a
               >
             </li>
           </ul>
-          <form class="d-flex" role="search">
+          <!-- {{ search_input }} -->
+          <form @submit.prevent="searchMovie" class="d-flex" role="search">
             <input
+              v-model="search_input"
               class="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
             />
-            <button class="btn btn-outline-success" type="submit">
+            <button class="btn btn-outline-info" type="submit">
               Search
             </button>
           </form>
         </div>
       </div>
     </nav>
-    <!-- <nav class="navbar bg-dark" data-bs-theme="dark">
-      <router-link :to="{ name: 'MoviesView' }">Movies</router-link>
-      <router-link :to="{ name: 'CommunityView' }">Community</router-link>
-      <router-link v-if="isLogin" :to="{ name: 'ProfileView' }"
-        >my profile</router-link
-      >
-      <router-link v-else :to="{ name: 'LogInView' }">Login</router-link>
-      <router-link :to="{ name: 'RecommendView' }">Recommend</router-link>
-    </nav> -->
     <router-view />
   </div>
 </template>
@@ -103,6 +93,20 @@ export default {
   computed: {
     ...mapGetters(["isLogin"]),
   },
+  data(){
+    return{
+      search_input : ''
+    }
+  },
+  methods:{
+    searchMovie(){
+      console.log(this.$route.path)
+      if (this.$route.path !== "/search") {
+      this.$router.push({name:'SearchMoviesView', params : {search_input : this.search_input } })
+      this.search_input=''
+      }
+    }
+  }
 };
 </script>
 

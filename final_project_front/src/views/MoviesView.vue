@@ -57,34 +57,23 @@
         </button>
       </div>
     </header>
+    
+    <div class="align-text-center"
+    style="margin-top: 5rem; text-decoration-color: rgba(43, 137, 224, 88); text-decoration-line: underline; text-decoration-style: double;">
+      <h1><th> 장르별 추천영화</th></h1>
+    </div>
+    <div v-for="genre in genres" :key="genre.id">
+      <GenreMovies
+        :movies = "movies"
+        :genre = genre
+        />
 
-    <!-- 캐러셀 4개씩 돌아가게 구성 -->
-    <!-- <div
-      id="carouselExampleSlidesOnly"
-      class="carousel slide container"
-      data-bs-ride="carousel"
-    >
-      <div class="carousel-inner">
-        <div class="carousel-item active w-100">
-          <MovieItem
-            v-for="(movie, index) in movies.slice(0, 4)"
-            :key="index"
-            :movie="movie"
-            class="d-inline w-25"
-          />
-        </div>
-        <div class="carousel-item">
-          <img src="" class="d-block" alt="..." />
-        </div>
-        <div class="carousel-item">
-          <img src="" class="d-block" alt="..." />
-        </div>
-      </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
+import GenreMovies from "@/components/GenreMovies.vue"
 export default {
   name: "MovieView",
   data() {
@@ -92,17 +81,22 @@ export default {
       search_input: "",
       selectedMovie: [],
       movies: [],
+      genres: [],
       searchedMovies: [],
       carousel_movies: [],
       API_URL: "https://image.tmdb.org/t/p/original/",
     };
   },
-  components: {},
+  components:{GenreMovies},
   computed: {},
   methods: {
     getMovies() {
       // console.log("getMovies");
       this.$store.dispatch("getMovie");
+    },
+    getgenre() {
+      // console.log("장르불러오기");
+      this.$store.dispatch("getGenre");
     },
     getCaroselPoster() {
       const lst = [];
@@ -156,6 +150,10 @@ export default {
     }, 100);
     setTimeout(() => {
       this.getCaroselPoster();
+    }, 200);
+    this.getgenre();
+    setTimeout(() => {
+      this.genres = this.$store.state.genres;
     }, 200);
   },
 };
