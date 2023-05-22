@@ -1,15 +1,16 @@
 <template>
-  <div class="col my-5" style="width: 20rem; height: 20rem">
+  <div class="col-3 my-5">
     <div
+      style="width: 18rem; height: 20rem"
       @click="getMovieDetail"
       class="card text-bg-dark"
-      style="width: 16rem"
       @mouseover="changOverlay"
       @mouseout="changOverlay"
     >
       <!-- 카드에 마우스를 올리면 영화정보가 나오가 나오면 나오지 않게 동작 -->
       <!-- 직관적으로 ture, false로 작동하는 방법도 있음 -->
-      <img :src="posterUrl" class="card-img" alt="..." />
+      <img :src="PosterUrl" class="card-img" alt="..." 
+      style="width: 18rem; height: 20rem"/>
       <div class="card-img-overlay" v-show="this.overlay">
         <h5 class="card-title">{{ movie.title }}</h5>
         <p class="card-text">
@@ -26,8 +27,6 @@ export default {
   data() {
     return {
       overlay: false,
-      posterUrl:
-        "https://image.tmdb.org/t/p/original/" + this.movie.poster_path,
     };
   },
   props: {
@@ -42,6 +41,11 @@ export default {
         name: "MovieDetailView",
         params: { movie_title: this.movie.title },
       });
+    },
+  },
+  computed: {
+    PosterUrl() {
+      return "https://image.tmdb.org/t/p/original/" + this.movie.poster_path;
     },
   },
 };

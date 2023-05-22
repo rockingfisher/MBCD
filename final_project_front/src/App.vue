@@ -5,6 +5,7 @@
       <router-link :to="{ name: 'CommunityView' }">Community</router-link>
       <router-link v-if="isLogin" :to="{ name: 'ProfileView' }">my profile</router-link>
       <router-link v-else :to="{ name: 'LogInView' }">Login</router-link>
+      <router-link :to="{ name: 'RecommendView' }">Recommend</router-link>
     </nav>
     <router-view />
   </div>

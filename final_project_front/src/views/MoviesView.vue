@@ -1,38 +1,91 @@
 <template>
-  <div>
-    <header>
+  
+  <div class="container">
+    <header class="row h-50">
+      <!-- {{ carousel_movies }} -->
       <div
-        v-for="(movie, idx) in carousel_movies"
-        :key="idx"
-        id="carouselExampleSlidesOnly"
-        class="carousel slide"
+        id="carouselExampleInterval"
+        class="carousel slide my-5"
         data-bs-ride="carousel"
       >
-        <div class="carousel-inner">
-          <div class="carousel-item active">
+        <div class="carousel-inner my-auto">
+          <div class="carousel-item active" data-bs-interval="3000">
             <img
-              src="API_URL+movie.poster_path"
-              class="d-block w-100"
+              :src="carousel_movies[0]?.URL"
+              class="d-block m-auto"
               alt="..."
+              style="width: 80rem; height: 80rem"
             />
           </div>
-          <div class="carousel-item">
-            <img src="" class="d-block w-100" alt="..." />
+          <div class="carousel-item" data-bs-interval="3000">
+            <img
+              :src="carousel_movies[1]?.URL"
+              class="d-block m-auto"
+              alt="..."
+              style="width: 80rem; height: 80rem"
+            />
           </div>
-          <div class="carousel-item">
-            <img src="" class="d-block w-100" alt="..." />
+          <div class="carousel-item" data-bs-interval="3000">
+            <img
+              :src="carousel_movies[2]?.URL"
+              class="d-block m-auto"
+              alt="..."
+              style="width: 80rem; height: 80rem"
+            />
           </div>
         </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleInterval"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleInterval"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
     </header>
-    <div class="row my-3">
+    <!-- 영화 10개 표시 -->
+    <div class="row my-3 h-50">
       <MovieItem
-        v-for="(movie, index) in movies"
+        v-for="(movie, index) in paginatedData"
         :key="index"
         :movie="movie"
-        style="width: 20rem; height: 20rem"
+        style="height: 20rem"
       />
     </div>
+    <br />
+    <br />
+    <br />
+    <div class="btn-cover">
+      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
+        이전
+      </button>
+
+      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+
+      <button
+        :disabled="pageNum >= pageCount - 1"
+        @click="nextPage"
+        class="page-btn"
+      >
+        다음
+      </button>
+    </div>
+    <!-- 영화검색 -->
+    <form @submit.prevent="search">
+      <input type="text" id="serchReview" v-model="search_input">
+      <button @click.prevent="search">검색</button>
+    </form>
   </div>
 </template>
 
@@ -43,7 +96,12 @@ export default {
   name: "MovieView",
   data() {
     return {
+      pageNum: 0,
+      pageSize: 12,
+      search_input:'',
+      selectedMovie: [],
       movies: [],
+      searchedMovies:[],
       carousel_movies: [],
       API_URL: "https://image.tmdb.org/t/p/original/",
     };
@@ -51,34 +109,82 @@ export default {
   components: {
     MovieItem,
   },
-  computed: {},
-  // "https://image.tmdb.org/t/p/original/" + this.movie.poster_path
-  // select30Movies(){
-  //   this.movies.filter((movie) => {
-  // }
-  // });
+  computed: {
+    pageCount() {
+      let listLeng = this.searchedMovies.length,
+        listSize = this.pageSize,
+        page = Math.floor(listLeng / listSize);
+
+      if (listLeng % listSize > 0) page += 1;
+      return page;
+    },
+    paginatedData() {
+      const start = this.pageNum * this.pageSize;
+      const end = start + this.pageSize;
+      return this.searchedMovies.slice(start, end);
+    },
+  },
   methods: {
     getMovies() {
       // console.log("getMovies");
       this.$store.dispatch("getMovie");
     },
     getCaroselPoster() {
+      const lst = [];
+      var cnt = 0;
       this.movies.forEach((movie) => {
-        if (movie.id <= 3) {
-          this.carousel_movies.push(movie);
+        if (cnt < 3) {
+          if (movie.vote_avg > 7.7) {
+            const URL =
+              "https://image.tmdb.org/t/p/original/" + movie.poster_path;
+            const movie_title = movie.title;
+            const data = {
+              URL,
+              movie_title,
+            };
+            lst.push(data);
+            cnt += 1;
+          }
+        } else {
+          return;
         }
       });
+      this.carousel_movies = lst;
     },
+    nextPage() {
+      this.pageNum += 1;
+    },
+    prevPage() {
+      this.pageNum -= 1;
+    },
+    search() {
+  if (!this.search_input) {
+    this.searchedMovies = this.movies;
+    return;
+  }
+
+  const searchTerm = this.search_input.toLowerCase();
+
+  this.searchedMovies = this.movies.filter((movie) => {
+
+    if (movie && movie.overview && movie.title) {
+      return (
+        movie.overview.toLowerCase().includes(searchTerm) ||
+        movie.title.toLowerCase().includes(searchTerm)
+      );
+    }
+    return false;
+  });
+
+
+  this.pageNum = 0;
+},
   },
-  // created() {
-  //   console.log("created");
-  //   this.getMovies();
-  // },
   mounted() {
     this.getMovies();
     // console.log("mounted");
     setTimeout(() => {
-      this.movies = this.$store.state.movies;
+      this.searchedMovies = this.movies = this.$store.state.movies;
       // console.log(this.movies);
     }, 100);
     setTimeout(() => {
@@ -88,4 +194,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.btn-cover {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.btn-cover .page-btn {
+  width: 5rem;
+  height: 2rem;
+  letter-spacing: 0.5px;
+}
+.btn-cover .page-count {
+  padding: 0 1rem;
+}
+</style>
