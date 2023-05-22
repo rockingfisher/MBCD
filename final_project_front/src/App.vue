@@ -3,11 +3,23 @@
     <nav class="navbar bg-dark" data-bs-theme="dark">
       <router-link :to="{ name: 'MoviesView' }">Movies</router-link>
       <router-link :to="{ name: 'CommunityView' }">Community</router-link>
+      <router-link v-if="isLogin" :to="{ name: 'ProfileView' }">my profile</router-link>
+      <router-link v-else :to="{ name: 'LogInView' }">Login</router-link>
       <router-link :to="{ name: 'RecommendView' }">Recommend</router-link>
     </nav>
     <router-view />
   </div>
 </template>
+
+<script>
+  import { mapGetters } from 'vuex';
+
+  export default {
+    computed: {
+      ...mapGetters(['isLogin'])
+    }
+  }
+</script>
 
 <style>
 #app {

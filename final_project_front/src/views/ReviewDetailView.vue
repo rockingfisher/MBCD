@@ -86,6 +86,7 @@ export default {
         });
     },
     createcomment() {
+      // const username =
       const content = this.comment_input;
       const review_id = this.$route.params.review_id;
       // console.log("댓글 생성");

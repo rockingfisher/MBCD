@@ -8,7 +8,8 @@
       <label for="password"> password : </label>
       <input type="password" id="password" v-model="password"><br>
 
-      <input type="submit" value="logIn">
+      <input type="submit" value="logIn"> |
+      <button @click="signup">signup</button>
     </form>
   </div>
 </template>
@@ -30,8 +31,10 @@ export default {
       const payload = {
         username, password
       }
-
       this.$store.dispatch('logIn', payload)
+    }, 
+    signup() {
+      this.$router.push({ name:'SignUpView' })
     }
   }
 }
