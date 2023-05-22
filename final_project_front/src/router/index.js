@@ -5,13 +5,13 @@ import MoviesView from "../views/MoviesView.vue";
 import CommunityView from "../views/CommunityView.vue";
 import ReviewDetailView from "@/views/ReviewDetailView";
 import MovieDetailView from "@/views/MovieDetailView";
-import CreateReviewView from "@/views/CreateReviewView";
-import UpdateReviewView from "@/views/UpdateReviewView";
-import RecommendView from '@/views/RecommendView';
-
 import SignUpView from "@/views/SignUpView";
 import ProfileView from "@/views/ProfileView";
 import LogInView from "@/views/LogInView";
+import PasswordChangeView from "@/views/PasswordChangeView";
+import CreateReviewView from "@/views/CreateReviewView";
+import UpdateReviewView from "@/views/UpdateReviewView";
+import RecommendView from '@/views/RecommendView';
 
 Vue.use(VueRouter);
 
@@ -58,9 +58,18 @@ const routes = [
     component: ProfileView,
   },
   {
-    path: "/login",
-    name: "LogInView",
-    component: LogInView,
+    path: '/login',
+    name: 'LogInView',
+    component: LogInView
+  },
+  {
+    path: '/pwchange',
+    name: 'PasswordChangeView',
+    component: PasswordChangeView
+  },
+  {
+    path: '/image-upload',
+    component: () => import('@/components/ImageUpload.vue')
   },
   {
     path: "/recommend",
