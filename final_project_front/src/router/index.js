@@ -11,7 +11,8 @@ import LogInView from "@/views/LogInView";
 import PasswordChangeView from "@/views/PasswordChangeView";
 import CreateReviewView from "@/views/CreateReviewView";
 import UpdateReviewView from "@/views/UpdateReviewView";
-import RecommendView from '@/views/RecommendView';
+import RecommendView from "@/views/RecommendView";
+import SearchMoviesView from "@/views/SearchMoviesView";
 
 Vue.use(VueRouter);
 
@@ -38,7 +39,7 @@ const routes = [
     component: MovieDetailView,
   },
   {
-      path: "/createReview",
+    path: "/createReview",
     name: "CreateReviewView",
     component: CreateReviewView,
   },
@@ -58,24 +59,29 @@ const routes = [
     component: ProfileView,
   },
   {
-    path: '/login',
-    name: 'LogInView',
-    component: LogInView
+    path: "/login",
+    name: "LogInView",
+    component: LogInView,
   },
   {
-    path: '/pwchange',
-    name: 'PasswordChangeView',
-    component: PasswordChangeView
+    path: "/pwchange",
+    name: "PasswordChangeView",
+    component: PasswordChangeView,
   },
   {
-    path: '/image-upload',
-    component: () => import('@/components/ImageUpload.vue')
+    path: "/image-upload",
+    component: () => import("@/components/ImageUpload.vue"),
   },
   {
     path: "/recommend",
     name: "RecommendView",
-    component: RecommendView
-  }
+    component: RecommendView,
+  },
+  {
+    path: "/search",
+    name: "SearchMoviesView",
+    component: SearchMoviesView,
+  },
 ];
 
 const router = new VueRouter({

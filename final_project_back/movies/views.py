@@ -19,7 +19,7 @@ def movie(request) :
 def takeGenre(request): 
     if request.method == 'GET':
         movieURL = f'https://api.themoviedb.org/3/discover/movie?api_key=f433951fa3f9ea7fc5b7f38dbec9ac20&language=ko-KR'
-        genreURL = f'https://api.themoviedb.org/3/genre/movie/list?api_key=f433951fa3f9ea7fc5b7f38dbec9ac20'
+        genreURL = f'https://api.themoviedb.org/3/genre/movie/list?api_key=f433951fa3f9ea7fc5b7f38dbec9ac20&language=ko'
         genreList = requests.get(genreURL).json()
         movieList = requests.get(movieURL).json()
         genre = genreList.get('genres')

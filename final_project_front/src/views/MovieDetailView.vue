@@ -1,20 +1,35 @@
 <template>
   <div>
-    <div class="row" style="height: 50%">
+    <div class="row d-inline">
       <header class="col-6">
         <img :src="posterUrl" class="card-img border rounded-4 m-3" alt="..." />
       </header>
       <section class="col-5 m-3">
-        <h1>제목: {{ movie?.title }}</h1>
-        <h2 class="my-4">
-          <span class="text-warning">{{ star }}</span> : {{ movie?.vote_avg }}
-        </h2>
-        <h3>개봉일: {{ movie?.released_date }}</h3>
-        <div class="rating"></div>
+        <h1 class="mt-3">
+          <th>제목: {{ movie?.title }}</th>
+        </h1>
+        <div class="my-4">
+          <h2>
+            <th class="text-warning" style="display: inline">{{ star }}</th>
+            <th style="display: inline">: {{ movie?.vote_avg }}</th>
+          </h2>
+        </div>
+        <div class="my-3">
+          <h4 style="display: inline"><th>장르 :</th></h4>
+          <span v-for="(genreName, idx) in genreNames" :key="idx" class="my-3">
+            <h5 style="display: inline" class="text-primary">
+              <th class="">[{{ genreName }}]</th>
+            </h5>
+          </span>
+        </div>
 
+        <h4>
+          <th>개봉일 : {{ movie?.released_date }}</th>
+        </h4>
+        <div class="rating"></div>
         <br />
         <h5>
-          <th>줄거리: {{ movie?.overview }}</th>
+          <th>줄거리 : {{ movie?.overview }}</th>
         </h5>
         <br />
         <hr />
@@ -32,6 +47,8 @@ export default {
   data() {
     return {
       movies: [],
+      genres: [],
+      genreNames: [],
       movie: null,
       posterUrl: null,
       star: "",
@@ -75,7 +92,7 @@ export default {
       const api_key = "cce60a874fcd4eaaa877cdc5211c1d3c";
       axios({
         method: "get",
-        url: `https://api.themoviedb.org/3/movie/${this.movie.id}/videos?api_key=${api_key}`,
+        url: `https://api.themoviedb.org/3/movie/${this.movie?.id}/videos?api_key=${api_key}`,
         data: {
           api_key,
         },
@@ -97,7 +114,19 @@ export default {
         });
     },
     getgenre() {
-      // this.$store.dispatch(getGenre);
+      // console.log("장르불러오기");
+      this.$store.dispatch("getGenre");
+    },
+    getGenreNames() {
+      let genreNames = [];
+      this.movie.genres.forEach((genre_id) => {
+        // console.log(genre_id);
+        const genre = this.genres.find((genre) => genre.id === genre_id);
+        if (genre) {
+          genreNames.push(genre.name);
+        }
+      });
+      this.genreNames = genreNames;
     },
   },
   mounted() {
@@ -105,9 +134,16 @@ export default {
     setTimeout(() => {
       this.getVideoUrl();
     }, 200);
+    this.getgenre();
+    setTimeout(() => {
+      this.genres = this.$store.state.genres;
+    }, 200);
   },
   created() {
     this.movies = this.$store.state.movies;
+    setTimeout(() => {
+      this.getGenreNames();
+    }, 300);
   },
 };
 </script>

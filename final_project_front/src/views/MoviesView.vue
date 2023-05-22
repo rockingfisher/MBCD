@@ -1,6 +1,9 @@
 <template>
-  
-  <div class="container">
+  <div class="container" style="background-color: rgba(214, 230, 245, 96)">
+    <!-- rgba(214, 230, 245, 96) -->
+    <!-- rgba(245, 232, 213, 96) -->
+    <!-- rgba(168, 147, 113, 66) -->
+
     <header class="row h-50">
       <!-- {{ carousel_movies }} -->
       <div
@@ -12,7 +15,7 @@
           <div class="carousel-item active" data-bs-interval="3000">
             <img
               :src="carousel_movies[0]?.URL"
-              class="d-block m-auto"
+              class="d-block m-auto w-50 h-50 c carousel_img"
               alt="..."
               style="width: 80rem; height: 80rem"
             />
@@ -20,7 +23,7 @@
           <div class="carousel-item" data-bs-interval="3000">
             <img
               :src="carousel_movies[1]?.URL"
-              class="d-block m-auto"
+              class="d-block m-auto w-50 h-50 carousel_img"
               alt="..."
               style="width: 80rem; height: 80rem"
             />
@@ -28,7 +31,7 @@
           <div class="carousel-item" data-bs-interval="3000">
             <img
               :src="carousel_movies[2]?.URL"
-              class="d-block m-auto"
+              class="d-block m-auto w-50 h-50 carousel_img"
               alt="..."
               style="width: 80rem; height: 80rem"
             />
@@ -54,76 +57,48 @@
         </button>
       </div>
     </header>
-    <!-- 영화 10개 표시 -->
-    <div class="row my-3 h-50">
-      <MovieItem
-        v-for="(movie, index) in paginatedData"
-        :key="index"
-        :movie="movie"
-        style="height: 20rem"
-      />
-    </div>
-    <br />
-    <br />
-    <br />
-    <div class="btn-cover">
-      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-        이전
-      </button>
 
-      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-
-      <button
-        :disabled="pageNum >= pageCount - 1"
-        @click="nextPage"
-        class="page-btn"
-      >
-        다음
-      </button>
-    </div>
-    <!-- 영화검색 -->
-    <form @submit.prevent="search">
-      <input type="text" id="serchReview" v-model="search_input">
-      <button @click.prevent="search">검색</button>
-    </form>
+    <!-- 캐러셀 4개씩 돌아가게 구성 -->
+    <!-- <div
+      id="carouselExampleSlidesOnly"
+      class="carousel slide container"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active w-100">
+          <MovieItem
+            v-for="(movie, index) in movies.slice(0, 4)"
+            :key="index"
+            :movie="movie"
+            class="d-inline w-25"
+          />
+        </div>
+        <div class="carousel-item">
+          <img src="" class="d-block" alt="..." />
+        </div>
+        <div class="carousel-item">
+          <img src="" class="d-block" alt="..." />
+        </div>
+      </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import MovieItem from "../components/MovieItem.vue";
-
 export default {
   name: "MovieView",
   data() {
     return {
-      pageNum: 0,
-      pageSize: 12,
-      search_input:'',
+      search_input: "",
       selectedMovie: [],
       movies: [],
-      searchedMovies:[],
+      searchedMovies: [],
       carousel_movies: [],
       API_URL: "https://image.tmdb.org/t/p/original/",
     };
   },
-  components: {
-    MovieItem,
-  },
-  computed: {
-    pageCount() {
-      let listLeng = this.searchedMovies.length,
-        listSize = this.pageSize,
-        page = Math.floor(listLeng / listSize);
-
-      if (listLeng % listSize > 0) page += 1;
-      return page;
-    },
-    paginatedData() {
-      const start = this.pageNum * this.pageSize;
-      const end = start + this.pageSize;
-      return this.searchedMovies.slice(start, end);
-    },
-  },
+  components: {},
+  computed: {},
   methods: {
     getMovies() {
       // console.log("getMovies");
@@ -151,34 +126,26 @@ export default {
       });
       this.carousel_movies = lst;
     },
-    nextPage() {
-      this.pageNum += 1;
-    },
-    prevPage() {
-      this.pageNum -= 1;
-    },
     search() {
-  if (!this.search_input) {
-    this.searchedMovies = this.movies;
-    return;
-  }
+      if (!this.search_input) {
+        this.searchedMovies = this.movies;
+        return;
+      }
 
-  const searchTerm = this.search_input.toLowerCase();
+      const searchTerm = this.search_input.toLowerCase();
 
-  this.searchedMovies = this.movies.filter((movie) => {
+      this.searchedMovies = this.movies.filter((movie) => {
+        if (movie && movie.overview && movie.title) {
+          return (
+            movie.overview.toLowerCase().includes(searchTerm) ||
+            movie.title.toLowerCase().includes(searchTerm)
+          );
+        }
+        return false;
+      });
 
-    if (movie && movie.overview && movie.title) {
-      return (
-        movie.overview.toLowerCase().includes(searchTerm) ||
-        movie.title.toLowerCase().includes(searchTerm)
-      );
-    }
-    return false;
-  });
-
-
-  this.pageNum = 0;
-},
+      this.pageNum = 0;
+    },
   },
   mounted() {
     this.getMovies();
@@ -206,5 +173,9 @@ export default {
 }
 .btn-cover .page-count {
   padding: 0 1rem;
+}
+
+.carousel_img {
+  border-radius: 11%;
 }
 </style>
