@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row" style="height: 50%;">
+    <div class="row" style="height: 50%">
       <header class="col-6">
         <img :src="posterUrl" class="card-img border rounded-4 m-3" alt="..." />
       </header>
@@ -11,11 +11,13 @@
         </h2>
         <h3>개봉일: {{ movie?.released_date }}</h3>
         <div class="rating"></div>
-  
+
         <br />
-        <h5><th>줄거리: {{ movie?.overview }}</th></h5>
-        <br>
-        <hr>
+        <h5>
+          <th>줄거리: {{ movie?.overview }}</th>
+        </h5>
+        <br />
+        <hr />
         <div class="youtube"></div>
       </section>
     </div>
@@ -23,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "MovieDetailView",
@@ -70,29 +72,33 @@ export default {
         return;
       }
 
-      const api_key = 'cce60a874fcd4eaaa877cdc5211c1d3c';
+      const api_key = "cce60a874fcd4eaaa877cdc5211c1d3c";
       axios({
-        method: 'get',
+        method: "get",
         url: `https://api.themoviedb.org/3/movie/${this.movie.id}/videos?api_key=${api_key}`,
         data: {
           api_key,
-        }
+        },
       })
-      .then((res) => {
-        let output = "<h3>예고편을 불러오는 중입니다.</h3>";
-        if (res.data.results.length > 0) {
-          const youtubeId = res.data.results[0].key;
-          output = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${youtubeId}?autoplay=1"></iframe>`;
-        } else {
-          output = '<h3 class="noVideo">재생할 예고편이 없습니다.</h3>';
-        }
-        youtube.innerHTML = output;
-      })
-      .catch((err) => {
-        console.log(err);
-        youtube.innerHTML = '<h3 class="noVideo">예고편을 가져오는 도중 오류가 발생했습니다.</h3>';
-      });
-    }
+        .then((res) => {
+          let output = "<h3>예고편을 불러오는 중입니다.</h3>";
+          if (res.data.results.length > 0) {
+            const youtubeId = res.data.results[0].key;
+            output = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${youtubeId}?autoplay=1"></iframe>`;
+          } else {
+            output = '<h3 class="noVideo">재생할 예고편이 없습니다.</h3>';
+          }
+          youtube.innerHTML = output;
+        })
+        .catch((err) => {
+          console.log(err);
+          youtube.innerHTML =
+            '<h3 class="noVideo">예고편을 가져오는 도중 오류가 발생했습니다.</h3>';
+        });
+    },
+    getgenre() {
+      // this.$store.dispatch(getGenre);
+    },
   },
   mounted() {
     this.getMovie();
