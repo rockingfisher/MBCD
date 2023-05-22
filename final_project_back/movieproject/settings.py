@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,9 +38,18 @@ INSTALLED_APPS = [
     'community',
 
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+
+    # registration
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+
     # CORS policy
     'corsheaders',
-
     
     # OpenAPI 3.0
     # 'drf_spectacular',
@@ -140,17 +150,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.AllowAny',
-#     ),
-#     # 'DEFAULT_AUTHENTICATION_CLASSES': (
-#     #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-#     # ),
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 
-# import datetime
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+}
 
-# JWT_AUTH = {
-#      'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
-# }
+REST_AUTH = {
+    'SESSION_LOGIN':False
+}
+
+SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_EMAIL_VERIFICATION = 'none' # 회원가입 과정에서 이메일 인증 사용 X
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializer.CustomRegisterSerializer',
+}
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'

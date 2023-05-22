@@ -15,9 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from dj_rest_auth.views import UserDetailsView, PasswordChangeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('movies/', include('movies.urls')),
     path('community/', include('community.urls')),
-]
+    path('account/', include('accounts.urls')),
+    path('accounts/', include('dj_rest_auth.urls')),
+    path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
+    path('accounts/userprofile/', UserDetailsView.as_view(), name='user-profile')
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

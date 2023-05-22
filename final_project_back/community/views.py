@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404, get_list_or_404
 
+from accounts.models import User
+
 from .models import Comment , Review
 from . serializers import ReviewSerializer, CommentSerializer, ReviewListSerializer
 # Create your views here.
@@ -24,9 +26,9 @@ def review_detail(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     
     # 만든 유저만 수정 가능 
-    if not request.user.review_set.filter(pk=review_pk).exists():
-        return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDON)
-    
+    # if not request.user.review_set.filter(pk=review_pk).exists():
+    #     return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDON)
+
     if request.method == 'GET':
         serializer = ReviewSerializer(review)
         return Response(serializer.data)
@@ -77,7 +79,11 @@ def comment_detail(request, comment_pk):
 def comment_create(request, review_pk):
     # review = Review.objects.get(pk=review_pk)
     review = get_object_or_404(Review, pk=review_pk)
+    user = get_object_or_404(User, pk=1)
+
+    comment = get_object_or_404(Comment, pk=review_pk)
     serializer = CommentSerializer(data=request.data)
+    # print(">>>>>>>>>")
     if serializer.is_valid(raise_exception=True):
-        serializer.save(review=review)
+        serializer.save(review_id=review,user_id=user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

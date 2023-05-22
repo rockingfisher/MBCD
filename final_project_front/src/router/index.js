@@ -1,17 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // import { component } from "vue/types/umd";
-import MovieView from "../views/MovieView.vue";
+import MoviesView from "../views/MoviesView.vue";
 import CommunityView from "../views/CommunityView.vue";
 import ReviewDetailView from "@/views/ReviewDetailView";
+import MovieDetailView from "@/views/MovieDetailView";
+import SignUpView from "@/views/SignUpView";
+import ProfileView from "@/views/ProfileView";
+import LogInView from "@/views/LogInView";
+import PasswordChangeView from "@/views/PasswordChangeView";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "MovieView",
-    component: MovieView,
+    name: "MoviesView",
+    component: MoviesView,
   },
   {
     path: "/communiy",
@@ -23,6 +28,35 @@ const routes = [
     name: "ReviewDetailView",
     component: ReviewDetailView,
     props: true,
+  },
+  {
+    path: "/moviedetail/",
+    name: "MovieDetailView",
+    component: MovieDetailView,
+  },
+  {
+    path: "/signup",
+    name: "SignUpView",
+    component: SignUpView,
+  },
+  {
+    path: "/profile",
+    name: "ProfileView",
+    component: ProfileView,
+  },
+  {
+    path: '/login',
+    name: 'LogInView',
+    component: LogInView
+  },
+  {
+    path: '/pwchange',
+    name: 'PasswordChangeView',
+    component: PasswordChangeView
+  },
+  {
+    path: '/image-upload',
+    component: () => import('@/components/ImageUpload.vue')
   },
 ];
 
