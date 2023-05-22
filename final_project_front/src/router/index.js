@@ -69,6 +69,7 @@ const routes = [
   },
   {
     path: '/image-upload',
+    name: 'ImageUpload',
     component: () => import('@/components/ImageUpload.vue')
   },
   {

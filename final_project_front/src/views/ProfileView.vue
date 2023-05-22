@@ -3,7 +3,7 @@
     <hr>
     <h1>{{ user.username }}'s profile</h1>
     <p>email : {{ user.email }}</p>
-    <img :src="profileImageUrl" alt="자비좀">
+    <img :src="profileImageUrl" alt="">
     <button @click="openImageUpload">Upload Image</button>
     <hr>
     <hr>

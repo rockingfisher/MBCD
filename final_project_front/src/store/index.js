@@ -20,6 +20,9 @@ export default new Vuex.Store({
   getters: {
     isLogin(state) {
       return state.token ? true : false
+    },
+    profileCreated(state) {
+      return state.userprofile ? true : false
     }
   },
   mutations: {
@@ -40,6 +43,7 @@ export default new Vuex.Store({
     LOG_OUT(state) {
       state.token = null
       state.user = null
+      state.userprofile = null
       router.push({ name:'LogInView' })
     },
   },
@@ -133,6 +137,7 @@ export default new Vuex.Store({
         .catch((err)=>{
           console.log('여긴가')
           console.log(err)
+          router.push({ name:'ImageUpload' })
       })
     },
     passwordChange(context, payload) {

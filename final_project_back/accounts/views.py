@@ -17,3 +17,12 @@ def profile(request, pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
             return Response(serializer.data)
+
+
+@api_view(['POST'])
+def profilecreate(request, pk):
+    serializer = ProfileSerializer(data=request.data)
+    print(serializer)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user_id=pk)
+        return Response(serializer.data)
