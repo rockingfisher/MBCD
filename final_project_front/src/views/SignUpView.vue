@@ -10,10 +10,6 @@
       <input type="password" id="password2" v-model="password2"><br>
       <label for="email">e-mail : </label>
       <input type="text" id="email" v-model="email"><br>
-      <!-- <label for="lastname">last name : </label>
-      <input type="text" id="lastname" v-model="last_name"> | 
-      <label for="firstname">first name : </label>
-      <input type="text" id="firstname" v-model="first_name"><br> -->
       <input type="submit" value="SignUp">
     </form>
   </div>
@@ -30,8 +26,6 @@ export default {
       password1: null,
       password2: null,
       email: null,
-      // last_name: null,
-      // first_name: null,
     }
   },
   methods: {
@@ -40,9 +34,7 @@ export default {
       const password1 = this.password1
       const password2 = this.password2
       const email = this.email
-      // const last_name = this.last_name
-      // const first_name = this.first_name
-
+      
       const payload = {
         username, password1, password2, email
       }

@@ -6,6 +6,8 @@
       <router-link v-if="isLogin" :to="{ name: 'ProfileView' }">my profile</router-link>
       <router-link v-else :to="{ name: 'LogInView' }">Login</router-link>
       <router-link :to="{ name: 'RecommendView' }">Recommend</router-link>
+      <img v-if="profileCreated" :src="profileImageUrl" alt="err">
+
     </nav>
     <router-view />
   </div>
@@ -16,8 +18,19 @@
 
   export default {
     computed: {
-      ...mapGetters(['isLogin'])
-    }
+      user() {
+        return this.$store.state.user
+      },
+      userprofile() {
+        return this.$store.state.userprofile
+      },
+      profileImageUrl() {
+        const imageName = this.userprofile.picture
+        return `http://127.0.0.1:8000${imageName}`
+      },
+      ...mapGetters(['isLogin']),
+      ...mapGetters(['profileCreated']),
+    },
   }
 </script>
 

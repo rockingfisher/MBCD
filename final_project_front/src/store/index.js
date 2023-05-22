@@ -32,7 +32,6 @@ export default new Vuex.Store({
     },
     SAVE_TOKEN(state, token) {
       state.token = token
-      router.push({ name:'ProfileView' })
     },
     GET_USER(state, data) {
       state.user = data
@@ -75,6 +74,9 @@ export default new Vuex.Store({
           console.log(res)
           context.commit('SAVE_TOKEN', res.data.key)
         })
+        .then(()=>{
+          router.push('/image-upload')
+        })
         .catch((err) => {
           console.log(err)
         })
@@ -91,6 +93,9 @@ export default new Vuex.Store({
       })
         .then((res)=>{
           context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .then(()=>{
+          context.dispatch('getUser')
         })
         .catch((err)=> {
           console.log(err)
@@ -114,8 +119,29 @@ export default new Vuex.Store({
           console.log("userData")
           console.log(userData)
           context.commit('GET_USER', userData)
+          return userData
         })
-          .catch((err)=>{
+        .then((userPk)=>{
+          context.dispatch('getProfile', userPk.pk)
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+    },
+    getUserAlone(context) {
+      const token = this.state.token
+      const headers = {
+        Authorization: `Token ${token}`,
+      }
+      axios.get('http://127.0.0.1:8000/accounts/userprofile/', { headers })
+        .then((res)=>{
+          const userData = res.data
+          console.log("userData")
+          console.log(userData)
+          context.commit('GET_USER', userData)
+          return userData
+        })
+        .catch((err)=>{
           console.log(err)
         })
     },
