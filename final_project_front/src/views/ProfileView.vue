@@ -1,9 +1,9 @@
 <template>
   <div>
-    <hr />
-    <h1>{{ user.username }}'s profile</h1>
-    <p>email : {{ user.email }}</p>
-    <img :src="profileImageUrl" alt="자비좀" />
+    <hr>
+    <h1>{{ user?.username }}'s profile</h1>
+    <p>email : {{ user?.email }}</p>
+    <img :src="profileImageUrl" alt="err">
     <button @click="openImageUpload">Upload Image</button>
     <hr />
     <hr />
@@ -14,7 +14,12 @@
 
 <script>
 export default {
-  name: "ProFile",
+  name: 'ProFile',
+  data() {
+    return {
+    initialLoad: true, // 초기 로드 여부
+    }
+  },
   methods: {
     getUser() {
       this.$store.dispatch("getUser");
@@ -31,14 +36,36 @@ export default {
       this.$router.push("/pwchange");
     },
     openImageUpload() {
-      window.open("/image-upload", "_blank");
+      this.$router.push('/image-upload')
     },
+
   },
   created() {
-    this.getUser();
+    this.getUser()
+    this.getProfile()
   },
+  // beforeMount() {
+  //   if (this.initialLoad) {
+  //     this.initialLoad = false; // 초기 로드 이후에는 새로고침 중지
+  //     location.reload();
+  //   }
+  // },
   mounted() {
-    this.getProfile();
+  // if (this.refreshCount < this.maxRefreshCount) {
+  //   location.reload();
+  //   console.log(this.refreshCount)
+  //   this.refreshCount++;
+  // }
+  },
+  updated() {
+    // this.getProfile()
+  },
+  watch: {
+    profileImageUrl(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        location.reload();
+      }
+    }
   },
   computed: {
     user() {

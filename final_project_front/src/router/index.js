@@ -69,8 +69,9 @@ const routes = [
     component: PasswordChangeView,
   },
   {
-    path: "/image-upload",
-    component: () => import("@/components/ImageUpload.vue"),
+    path: '/image-upload',
+    name: 'ImageUpload',
+    component: () => import('@/components/ImageUpload.vue')
   },
   {
     path: "/recommend",

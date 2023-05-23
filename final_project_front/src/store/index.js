@@ -18,16 +18,19 @@ export default new Vuex.Store({
   },
   getters: {
     isLogin(state) {
-      return state.token ? true : false;
+      return state.token ? true : false
     },
+    profileCreated(state) {
+      return state.userprofile ? true : false
+    }
   },
   mutations: {
     GET_MOVIE(state, movies) {
       state.movies = movies;
     },
     SAVE_TOKEN(state, token) {
-      state.token = token;
-      router.push({ name: "ProfileView" });
+      state.token = token
+
     },
     GET_USER(state, data) {
       state.user = data;
@@ -36,9 +39,10 @@ export default new Vuex.Store({
       state.userprofile = data;
     },
     LOG_OUT(state) {
-      state.token = null;
-      state.user = null;
-      router.push({ name: "LogInView" });
+      state.token = null
+      state.user = null
+      state.userprofile = null
+      router.push({ name:'LogInView' })
     },
     GET_GENRE(state, genres) {
       // console.log(genres);
@@ -76,6 +80,9 @@ export default new Vuex.Store({
           console.log(res);
           context.commit("SAVE_TOKEN", res.data.key);
         })
+        .then(()=>{
+          router.push('/image-upload')
+        })
         .catch((err) => {
           console.log(err);
         });
@@ -91,8 +98,14 @@ export default new Vuex.Store({
           password,
         },
       })
-        .then((res) => {
-          context.commit("SAVE_TOKEN", res.data.key);
+        .then((res)=>{
+          context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .then(()=>{
+          context.dispatch('getUser')
+        })
+        .catch((err)=> {
+          console.log(err)
         })
         .catch((err) => {
           console.log(err);
@@ -107,14 +120,37 @@ export default new Vuex.Store({
       const token = this.state.token;
       const headers = {
         Authorization: `Token ${token}`,
-      };
-      axios
-        .get("http://127.0.0.1:8000/accounts/userprofile/", { headers })
-        .then((res) => {
-          const userData = res.data;
-          console.log("userData");
-          console.log(userData);
-          context.commit("GET_USER", userData);
+      }
+      axios.get('http://127.0.0.1:8000/accounts/userprofile/', { headers })
+        .then((res)=>{
+          const userData = res.data
+          console.log("userData")
+          console.log(userData)
+          context.commit('GET_USER', userData)
+          return userData
+        })
+        .then((userPk)=>{
+          context.dispatch('getProfile', userPk.pk)
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+    },
+    getUserAlone(context) {
+      const token = this.state.token
+      const headers = {
+        Authorization: `Token ${token}`,
+      }
+      axios.get('http://127.0.0.1:8000/accounts/userprofile/', { headers })
+        .then((res)=>{
+          const userData = res.data
+          console.log("userData")
+          console.log(userData)
+          context.commit('GET_USER', userData)
+          return userData
+        })
+        .catch((err)=>{
+          console.log(err)
         })
         .catch((err) => {
           console.log(err);
@@ -136,10 +172,11 @@ export default new Vuex.Store({
           console.log(userProfile);
           context.commit("GET_PROFILE", userProfile);
         })
-        .catch((err) => {
-          console.log("여긴가");
-          console.log(err);
-        });
+        .catch((err)=>{
+          console.log('여긴가')
+          console.log(err)
+          router.push({ name:'ImageUpload' })
+      })
     },
     passwordChange(context, payload) {
       const { new_password1, new_password2 } = payload;
