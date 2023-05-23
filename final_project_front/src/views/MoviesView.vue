@@ -1,6 +1,9 @@
 <template>
-  
-  <div class="container">
+  <div class="container" style="background-color: rgba(214, 230, 245, 96)">
+    <!-- rgba(214, 230, 245, 96) -->
+    <!-- rgba(245, 232, 213, 96) -->
+    <!-- rgba(168, 147, 113, 66) -->
+
     <header class="row h-50">
       <!-- {{ carousel_movies }} -->
       <div
@@ -12,7 +15,7 @@
           <div class="carousel-item active" data-bs-interval="3000">
             <img
               :src="carousel_movies[0]?.URL"
-              class="d-block m-auto"
+              class="d-block m-auto w-50 h-50 c carousel_img"
               alt="..."
               style="width: 80rem; height: 80rem"
             />
@@ -20,7 +23,7 @@
           <div class="carousel-item" data-bs-interval="3000">
             <img
               :src="carousel_movies[1]?.URL"
-              class="d-block m-auto"
+              class="d-block m-auto w-50 h-50 carousel_img"
               alt="..."
               style="width: 80rem; height: 80rem"
             />
@@ -28,7 +31,7 @@
           <div class="carousel-item" data-bs-interval="3000">
             <img
               :src="carousel_movies[2]?.URL"
-              class="d-block m-auto"
+              class="d-block m-auto w-50 h-50 carousel_img"
               alt="..."
               style="width: 80rem; height: 80rem"
             />
@@ -54,80 +57,46 @@
         </button>
       </div>
     </header>
-    <!-- 영화 10개 표시 -->
-    <div class="row my-3 h-50">
-      <MovieItem
-        v-for="(movie, index) in paginatedData"
-        :key="index"
-        :movie="movie"
-        style="height: 20rem"
-      />
+    
+    <div class="align-text-center"
+    style="margin-top: 5rem; text-decoration-color: rgba(43, 137, 224, 88); text-decoration-line: underline; text-decoration-style: double;">
+      <h1><th> 장르별 추천영화</th></h1>
     </div>
-    <br />
-    <br />
-    <br />
-    <div class="btn-cover">
-      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
-        이전
-      </button>
+    <div v-for="genre in genres" :key="genre.id">
+      <GenreMovies
+        :movies = "movies"
+        :genre = genre
+        />
 
-      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
-
-      <button
-        :disabled="pageNum >= pageCount - 1"
-        @click="nextPage"
-        class="page-btn"
-      >
-        다음
-      </button>
     </div>
-    <!-- 영화검색 -->
-    <form @submit.prevent="search">
-      <input type="text" id="serchReview" v-model="search_input">
-      <button @click.prevent="search">검색</button>
-    </form>
   </div>
 </template>
 
 <script>
-import MovieItem from "../components/MovieItem.vue";
-
+import GenreMovies from "@/components/GenreMovies.vue"
 export default {
   name: "MovieView",
   data() {
     return {
-      pageNum: 0,
-      pageSize: 12,
-      search_input:'',
+      search_input: "",
       selectedMovie: [],
       movies: [],
-      searchedMovies:[],
+      genres: [],
+      searchedMovies: [],
       carousel_movies: [],
       API_URL: "https://image.tmdb.org/t/p/original/",
     };
   },
-  components: {
-    MovieItem,
-  },
-  computed: {
-    pageCount() {
-      let listLeng = this.searchedMovies.length,
-        listSize = this.pageSize,
-        page = Math.floor(listLeng / listSize);
-
-      if (listLeng % listSize > 0) page += 1;
-      return page;
-    },
-    paginatedData() {
-      const start = this.pageNum * this.pageSize;
-      const end = start + this.pageSize;
-      return this.searchedMovies.slice(start, end);
-    },
-  },
+  components:{GenreMovies},
+  computed: {},
   methods: {
     getMovies() {
       // console.log("getMovies");
       this.$store.dispatch("getMovie");
+    },
+    getgenre() {
+      // console.log("장르불러오기");
+      this.$store.dispatch("getGenre");
     },
     getCaroselPoster() {
       const lst = [];
@@ -151,34 +120,26 @@ export default {
       });
       this.carousel_movies = lst;
     },
-    nextPage() {
-      this.pageNum += 1;
-    },
-    prevPage() {
-      this.pageNum -= 1;
-    },
     search() {
-  if (!this.search_input) {
-    this.searchedMovies = this.movies;
-    return;
-  }
+      if (!this.search_input) {
+        this.searchedMovies = this.movies;
+        return;
+      }
 
-  const searchTerm = this.search_input.toLowerCase();
+      const searchTerm = this.search_input.toLowerCase();
 
-  this.searchedMovies = this.movies.filter((movie) => {
+      this.searchedMovies = this.movies.filter((movie) => {
+        if (movie && movie.overview && movie.title) {
+          return (
+            movie.overview.toLowerCase().includes(searchTerm) ||
+            movie.title.toLowerCase().includes(searchTerm)
+          );
+        }
+        return false;
+      });
 
-    if (movie && movie.overview && movie.title) {
-      return (
-        movie.overview.toLowerCase().includes(searchTerm) ||
-        movie.title.toLowerCase().includes(searchTerm)
-      );
-    }
-    return false;
-  });
-
-
-  this.pageNum = 0;
-},
+      this.pageNum = 0;
+    },
   },
   mounted() {
     this.getMovies();
@@ -189,6 +150,10 @@ export default {
     }, 100);
     setTimeout(() => {
       this.getCaroselPoster();
+    }, 200);
+    this.getgenre();
+    setTimeout(() => {
+      this.genres = this.$store.state.genres;
     }, 200);
   },
 };
@@ -206,5 +171,9 @@ export default {
 }
 .btn-cover .page-count {
   padding: 0 1rem;
+}
+
+.carousel_img {
+  border-radius: 11%;
 }
 </style>
