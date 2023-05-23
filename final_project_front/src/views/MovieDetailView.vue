@@ -128,6 +128,26 @@ export default {
       });
       this.genreNames = genreNames;
     },
+    increaseCount() {
+      if (this.movie) {
+        this.movie.genres.forEach((genre_id) => {
+          axios({
+            method: "get",
+            url: `http://127.0.0.1:8000/account/profile/increasecount/${this.user.pk}/${genre_id}/`,
+          })
+            .then(() => {
+              // console.log(res);
+              this.getProfile();
+            })
+            .catch((err) => console.log(err));
+        });
+      }
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
   },
   mounted() {
     this.getMovie();
@@ -143,6 +163,9 @@ export default {
     this.movies = this.$store.state.movies;
     setTimeout(() => {
       this.getGenreNames();
+    }, 300);
+    setTimeout(() => {
+      this.increaseCount();
     }, 300);
   },
 };

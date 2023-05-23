@@ -1,13 +1,13 @@
 <template>
   <div
-    class="col-3 align-content-center"
-    style="width: 18rem; height: 21rem; border-radius: 11%; margin: 1rem"
+    class="mx-auto align-content-center"
+    style="width: 30rem; height: 35rem; border-radius: 11%; margin: 1rem"
   >
     <div
       class="card shadow"
       style="
-        width: 16rem;
-        height: 19rem;
+        width: 30rem;
+        height: 35rem;
         border-radius: 11%;
         margin: 1rem;
         color: white;
@@ -21,12 +21,12 @@
         :src="PosterUrl"
         class="card-img shadow"
         alt="..."
-        style="width: 16rem; height: 19rem; border-radius: 11%"
+        style="width: 30rem; height: 35rem; border-radius: 11%"
       />
       <div
         class="card-img-overlay shadow"
         v-show="this.overlay"
-        style="width: 16rem; height: 19rem; border-radius: 11%"
+        style="width: 30rem; height: 35rem; border-radius: 11%"
       >
         <h4 class="card-title" style="text-shadow: 1px 1px 2px black">
           {{ movie.title }}
@@ -49,7 +49,7 @@
 
 <script>
 export default {
-  name: "MovieItem",
+  name: "MovieWarItem",
   data() {
     return {
       overlay: false,

@@ -13,6 +13,7 @@ import CreateReviewView from "@/views/CreateReviewView";
 import UpdateReviewView from "@/views/UpdateReviewView";
 import RecommendView from "@/views/RecommendView";
 import SearchMoviesView from "@/views/SearchMoviesView";
+import MovieWarView from "@/views/MovieWarView";
 
 Vue.use(VueRouter);
 
@@ -69,9 +70,9 @@ const routes = [
     component: PasswordChangeView,
   },
   {
-    path: '/image-upload',
-    name: 'ImageUpload',
-    component: () => import('@/components/ImageUpload.vue')
+    path: "/image-upload",
+    name: "ImageUpload",
+    component: () => import("@/components/ImageUpload.vue"),
   },
   {
     path: "/recommend",
@@ -82,6 +83,11 @@ const routes = [
     path: "/search",
     name: "SearchMoviesView",
     component: SearchMoviesView,
+  },
+  {
+    path: "/moviewar",
+    name: "MovieWarView",
+    component: MovieWarView,
   },
 ];
 
