@@ -29,9 +29,13 @@ export default {
       const password = this.password
 
       const payload = {
-        username, password
+        username, password  
       }
       this.$store.dispatch('logIn', payload)
+      setTimeout(()=>{
+        this.$router.push('/profile')
+      }, 500)
+      // this.$router.push('/profile')
     }, 
     signup() {
       this.$router.push({ name:'SignUpView' })

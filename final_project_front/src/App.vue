@@ -91,7 +91,18 @@ import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["isLogin"]),
+    user() {
+      return this.$store.state.user
+    },
+    userprofile() {
+      return this.$store.state.userprofile
+    },
+    profileImageUrl() {
+      const imageName = this.userprofile.picture
+      return `http://127.0.0.1:8000${imageName}`
+    },
+    ...mapGetters(['isLogin']),
+    ...mapGetters(['profileCreated']),
   },
   data(){
     return{
