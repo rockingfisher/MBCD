@@ -15,21 +15,27 @@ export default new Vuex.Store({
     token: null,
     user: null,
     userprofile: null,
+    anotheruserprofile: null,
+    likeitmessage: false,
   },
   getters: {
     isLogin(state) {
-      return state.token ? true : false;
+      return state.token ? true : false
     },
     profileCreated(state) {
-      return state.userprofile ? true : false;
+      return state.userprofile ? true : false
     },
+    isLike(state) {
+      return state.likeitmessage ? true : false
+    }
   },
   mutations: {
     GET_MOVIE(state, movies) {
       state.movies = movies;
     },
     SAVE_TOKEN(state, token) {
-      state.token = token;
+      state.token = token
+
     },
     GET_USER(state, data) {
       state.user = data;
@@ -37,16 +43,22 @@ export default new Vuex.Store({
     GET_PROFILE(state, data) {
       state.userprofile = data;
     },
+    GET_ANOTHER_PROFILE(state, data) {
+      state.anotheruserprofile = data;
+    },
     LOG_OUT(state) {
-      state.token = null;
-      state.user = null;
-      state.userprofile = null;
-      router.push({ name: "LogInView" });
+      state.token = null
+      state.user = null
+      state.userprofile = null
+      router.push({ name:'LogInView' })
     },
     GET_GENRE(state, genres) {
       // console.log(genres);
       state.genres = genres;
     },
+    LIKE_IT(state, message) {
+      state.likeitmessage = message
+    }
   },
   actions: {
     getMovie(context) {
@@ -76,11 +88,11 @@ export default new Vuex.Store({
         },
       })
         .then((res) => {
-          // console.log(res);
+          console.log(res);
           context.commit("SAVE_TOKEN", res.data.key);
         })
-        .then(() => {
-          router.push("/image-upload");
+        .then(()=>{
+          router.push('/image-upload')
         })
         .catch((err) => {
           console.log(err);
@@ -97,14 +109,14 @@ export default new Vuex.Store({
           password,
         },
       })
-        .then((res) => {
-          context.commit("SAVE_TOKEN", res.data.key);
+        .then((res)=>{
+          context.commit('SAVE_TOKEN', res.data.key)
         })
-        .then(() => {
-          context.dispatch("getUser");
+        .then(()=>{
+          context.dispatch('getUser')
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((err)=> {
+          console.log(err)
         })
         .catch((err) => {
           console.log(err);
@@ -119,39 +131,37 @@ export default new Vuex.Store({
       const token = this.state.token;
       const headers = {
         Authorization: `Token ${token}`,
-      };
-      axios
-        .get("http://127.0.0.1:8000/accounts/userprofile/", { headers })
-        .then((res) => {
-          const userData = res.data;
-          // console.log("userData")
-          // console.log(userData)
-          context.commit("GET_USER", userData);
-          return userData;
+      }
+      axios.get('http://127.0.0.1:8000/accounts/userprofile/', { headers })
+        .then((res)=>{
+          const userData = res.data
+          console.log("userData")
+          console.log(userData)
+          context.commit('GET_USER', userData)
+          return userData
         })
-        .then((userPk) => {
-          context.dispatch("getProfile", userPk.pk);
+        .then((userPk)=>{
+          context.dispatch('getProfile', userPk.pk)
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err)=>{
+          console.log(err)
+        })
     },
     getUserAlone(context) {
-      const token = this.state.token;
+      const token = this.state.token
       const headers = {
         Authorization: `Token ${token}`,
-      };
-      axios
-        .get("http://127.0.0.1:8000/accounts/userprofile/", { headers })
-        .then((res) => {
-          const userData = res.data;
-          // console.log("userData")
-          // console.log(userData)
-          context.commit("GET_USER", userData);
-          return userData;
+      }
+      axios.get('http://127.0.0.1:8000/accounts/userprofile/', { headers })
+        .then((res)=>{
+          const userData = res.data
+          console.log("userData")
+          console.log(userData)
+          context.commit('GET_USER', userData)
+          return userData
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((err)=>{
+          console.log(err)
         })
         .catch((err) => {
           console.log(err);
@@ -163,21 +173,39 @@ export default new Vuex.Store({
       const headers = {
         Authorization: `Token ${token}`,
       };
-
       axios
         .get(`http://127.0.0.1:8000/account/profile/${userpk}`, { headers })
         .then((res) => {
-          // console.log(res);
+          console.log(res);
           const userProfile = res.data;
-          // console.log("userProfile");
-          // console.log(userProfile);
+          console.log("userProfile");
+          console.log(userProfile);
           context.commit("GET_PROFILE", userProfile);
         })
-        .catch((err) => {
-          // console.log('여긴가')
-          console.log(err);
-          router.push({ name: "ImageUpload" });
-        });
+        .catch((err)=>{
+          console.log('여긴가')
+          console.log(err)
+          router.push({ name:'ImageUpload' })
+      })
+    },
+    getAnotherProfile(context, payload) {
+      const userpk = payload;
+      const token = this.state.token;
+      const headers = {
+        Authorization: `Token ${token}`,
+      };
+      axios
+        .get(`http://127.0.0.1:8000/account/profile/${userpk}`, { headers })
+        .then((res) => {
+          console.log(res);
+          const userProfile = res.data;
+          console.log("userProfile");
+          context.commit("GET_ANOTHER_PROFILE", userProfile);
+        })
+        .catch((err)=>{
+          console.log('여긴가')
+          console.log(err)
+      })
     },
     passwordChange(context, payload) {
       const { new_password1, new_password2 } = payload;
@@ -212,6 +240,19 @@ export default new Vuex.Store({
         })
         .catch((err) => console.log(err));
     },
+    likeIt(context, payload) {
+      const user = this.state.user
+      const token = this.state.token;
+      const headers = {
+        Authorization: `Token ${token}`,
+      }
+      axios.post(`http://127.0.0.1:8000/movies/${payload}/likes/`, user, {headers})
+        .then((res)=>{
+          console.log(res)
+          context.commit('LIKE_IT')
+        })
+        .catch(err=>console.log(err))
+    }
   },
   modules: {},
 });
