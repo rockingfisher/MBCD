@@ -1,67 +1,33 @@
 <template>
   <div>
-    <hr />
-    <h1>{{ user.username }}'s profile</h1>
-    <p>email : {{ user.email }}</p>
-    <img :src="profileImageUrl" alt="자비좀" />
+    <hr>
+    <h1>{{ user?.username }}'s profile</h1>
+    <p>email : {{ user?.email }}</p>
+    <img :src="profileImageUrl" class="img-thumbnail" alt="err"><br>
     <button @click="openImageUpload">Upload Image</button>
-    <hr />
-    <hr />
+    <hr/>
+    <h4>my review</h4>
+    <ul v-for="review in my_reviews" :key="review.id">
+      <li v-if="review.username === user.username">
+        <a :href="MyMyReview(review.id)">{{ review.title }}</a>
+      </li>
+    </ul>
+    <hr/>
     <button @click="logOut">LogOut</button>
     <button @click="pwchange">password change</button>
-    <hr />
-    <span
-      class="text-center m-3 text-primary"
-      style="text-decoration-line: underline"
-    >
-      <h2><p>선호하는 장르를 선택해주세요</p></h2>
-    </span>
-    <div
-      class="row shadow-sm mx-3"
-      style="border-radius: 20px; text-shadow: 1px 1px 4px grey"
-    >
-      <div
-        class="d-inline btn btn-primary col-1 m-4"
-        v-for="(genre, idx) in genres"
-        :class="{ deactive: !userprofile[GENRES[genre.id] + '_key'] }"
-        :key="idx"
-        @click.prevent="activeBtn(genre)"
-      >
-        {{ genre.name }}
-      </div>
-      <!-- {{ userprofile }} -->
-    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+
 export default {
-  name: "ProFile",
+  name: 'ProFile',
   data() {
     return {
-      GENRES: {
-        28: "action",
-        12: "adventure",
-        16: "animation",
-        35: "comedy",
-        80: "crime",
-        99: "documentary",
-        18: "drama",
-        10751: "family",
-        14: "fantasy",
-        36: "history",
-        27: "horror",
-        10402: "music",
-        9648: "mystery",
-        10749: "romance",
-        878: "science_fiction",
-        10770: "tv_movie",
-        53: "thriller",
-        10752: "war",
-        37: "western",
-      },
-    };
+      initialLoad: true, // 초기 로드 여부
+      my_reviews: [], // 리뷰 전체
+    }
   },
   methods: {
     getUser() {
@@ -72,34 +38,41 @@ export default {
     },
     getProfile() {
       const userPk = this.user.pk;
-      console.log(userPk);
       this.$store.dispatch("getProfile", userPk);
     },
     pwchange() {
       this.$router.push("/pwchange");
     },
     openImageUpload() {
-      window.open("/image-upload", "_blank");
+      this.$router.push('/image-upload')
     },
-    activeBtn(genre) {
-      // console.log(this.user.pk);
-      // console.log(genre.id);
+    getMyReview() {
       axios({
-        method: "get",
-        url: `http://127.0.0.1:8000/account/profile/togglecount/${this.user.pk}/${genre.id}/`,
+        method: 'get',
+        url: `http://127.0.0.1:8000/community/reviews/`
       })
-        .then((res) => {
-          console.log(res);
-          this.getProfile();
+        .then((res)=>{
+          console.log('my')
+          console.log(res)
+          this.my_reviews = res.data;
         })
-        .catch((err) => console.log(err));
+        .catch((err)=>{console.log(err)})
     },
+    MyMyReview(id) {
+      return `/reviewdetail/${id}`
+    }
   },
   created() {
-    this.getUser();
+    this.getUser()
+    this.getProfile()
+    this.getMyReview()
   },
-  mounted() {
-    this.getProfile();
+  watch: {
+    profileImageUrl(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        location.reload();
+      }
+    }
   },
   computed: {
     user() {
@@ -108,22 +81,16 @@ export default {
     userprofile() {
       return this.$store.state.userprofile;
     },
-    movie() {
-      return this.$store.state.movie;
-    },
     profileImageUrl() {
       const imageName = this.userprofile.picture;
-      return `http://127.0.0.1:8000/${imageName}`;
+      return `http://127.0.0.1:8000${imageName}`;
     },
-    genres() {
-      return this.$store.state.genres;
-    },
+    my_reviews_item() {
+      const userName = this.user.username
+      return this.my_reviews.filter(review => review.username === userName)
+    }
   },
 };
 </script>
 
-<style>
-.deactive {
-  background-color: gainsboro;
-}
-</style>
+<style></style>

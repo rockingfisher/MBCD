@@ -1,17 +1,25 @@
 <template>
-  <div>
+  <div class="container">
     <div v-if="profileCreated">
-      <h1>Image Upload</h1>
+      <hr>
+      <h1>프로필 이미지 변경</h1>
+      <hr>
       <form @submit.prevent="uploadImage">
-        <input type="file" accept="image/*" @change="handleFileChange">
-        <button type="submit">Upload</button>
+        <div v-if="file">
+          <img :src="previewURL" alt="Selected Image" style="max-width: 300px; max-height: 300px;">
+        </div>
+        <input type="file" accept="image/*" @change="handleFileChange"><br>
+        <button type="submit" class="mt-3 btn btn-outline-info">Upload</button>
       </form>
     </div>
     <div v-else>
-      <h1>Image Create</h1>
+      <h1>프로필 이미지 생성</h1>
+      <div v-if="file">
+        <img :src="previewURL" alt="Selected Image" style="max-width: 300px; max-height: 300px;">
+      </div>
       <form @submit.prevent="createImage">
         <input type="file" accept="image/*" @change="handleFileChange">
-        <button type="submit">create</button>
+        <button type="submit" class="mt-3 btn btn-outline-info">create</button>
       </form>
     </div>
   </div>
@@ -27,12 +35,14 @@ export default {
   data() {
     return {
       file: null,
+      previewURL: null,
     };
   },
   methods: {
     ...mapMutations(['GET_PROFILE']),
     handleFileChange(event) {
       this.file = event.target.files[0];
+      this.previewURL = URL.createObjectURL(this.file);
     },
     uploadImage() {
     const token = this.token
