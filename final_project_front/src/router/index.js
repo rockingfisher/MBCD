@@ -7,13 +7,13 @@ import ReviewDetailView from "@/views/ReviewDetailView";
 import MovieDetailView from "@/views/MovieDetailView";
 import SignUpView from "@/views/SignUpView";
 import ProfileView from "@/views/ProfileView";
+import AnotherProfile from "@/views/AnotherProfile";
 import LogInView from "@/views/LogInView";
 import PasswordChangeView from "@/views/PasswordChangeView";
 import CreateReviewView from "@/views/CreateReviewView";
 import UpdateReviewView from "@/views/UpdateReviewView";
 import RecommendView from "@/views/RecommendView";
 import SearchMoviesView from "@/views/SearchMoviesView";
-import MovieWarView from "@/views/MovieWarView";
 
 Vue.use(VueRouter);
 
@@ -60,6 +60,12 @@ const routes = [
     component: ProfileView,
   },
   {
+    path: "/anotherprofile/:user_id",
+    name: "AnotherProfile",
+    component: AnotherProfile,
+    props: true,
+  },
+  {
     path: "/login",
     name: "LogInView",
     component: LogInView,
@@ -70,9 +76,9 @@ const routes = [
     component: PasswordChangeView,
   },
   {
-    path: "/image-upload",
-    name: "ImageUpload",
-    component: () => import("@/components/ImageUpload.vue"),
+    path: '/image-upload',
+    name: 'ImageUpload',
+    component: () => import('@/components/ImageUpload.vue')
   },
   {
     path: "/recommend",
@@ -83,11 +89,6 @@ const routes = [
     path: "/search",
     name: "SearchMoviesView",
     component: SearchMoviesView,
-  },
-  {
-    path: "/moviewar",
-    name: "MovieWarView",
-    component: MovieWarView,
   },
 ];
 

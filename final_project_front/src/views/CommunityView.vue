@@ -1,6 +1,6 @@
 <template>
   <div class="container text-bg-light h-1000px text-center">
-    <h1>게시판</h1>
+    <h1>리뷰 게시판</h1>
     <div class="row text-start">
       <th class="col-3">게시글 번호</th>
       <th class="col-3">게시글 제목</th>
@@ -16,8 +16,13 @@
       />
     </div>
     <div class="m-2">
-      <router-link :to="{ name: 'CreateReviewView' }">
-        <button>글쓰기</button>
+      <router-link :to="{ name: 'CreateReviewView' }" style="text-decoration: none">
+        <div class="button">
+            <p class="btnText">리뷰 작성</p>
+            <div class="btnTwo">
+              <p class="btnText2">GO!</p>
+            </div>
+        </div>
       </router-link>
     </div>
     <form @submit.prevent="search">
@@ -27,7 +32,7 @@
         <option value="title_and_content">제목+내용</option>
       </select>
       <input type="text" id="serchReview" v-model="search_input">
-      <button @click.prevent="search">검색</button>
+      <button class="btn btn-outline-info btn-sm" @click.prevent="search">search</button>
     </form>
   </div>
 </template>
@@ -96,5 +101,47 @@ export default {
 }
 .h-1000px {
   height: 1000px;
+}
+
+.button {
+  background: #3D4C53;
+  margin : 20px auto;
+  width : 200px;
+  height : 40px;
+  overflow: hidden;
+  text-align : center;
+  transition : .2s;
+  cursor : pointer;
+  border-radius: 3px;
+  box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+}
+.btnTwo {
+  position : relative;
+  width : 200px;
+  height : 100px;
+  margin-top: -100px;
+  padding-top: 2px;
+  background : rgba(43, 137, 224, 88);
+  left : -250px;
+  transition : .3s;
+}
+.btnText {
+  margin-top: 9px;
+  color : white;
+  transition : .3s;
+}
+.btnText2 {
+  margin-top : 59px;
+  margin-right : -130px;
+  color : #FFF;
+}
+.button:hover .btnTwo{ /*When hovering over .button change .btnTwo*/
+  left: -130px;
+}
+.button:hover .btnText{ /*When hovering over .button change .btnText*/
+  margin-left : 65px;
+}
+.button:active { /*Clicked and held*/
+  box-shadow: 0px 5px 6px rgba(0,0,0,0.3);
 }
 </style>
