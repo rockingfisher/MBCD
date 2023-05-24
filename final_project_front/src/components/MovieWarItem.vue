@@ -39,8 +39,8 @@
             {{ movie.vote_avg }}
           </span>
         </h4>
-        <p class="card-text" style="text-shadow: 1px 1px 2px black">
-          <small>{{ movie.overview.slice(0, 100) }}...</small>
+        <p class="card-text" style="text-shadow: 1px 1px 3px black">
+          <big>{{ movie.overview.slice(0, 200) }}...</big>
         </p>
       </div>
     </div>

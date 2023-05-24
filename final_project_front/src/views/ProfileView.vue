@@ -1,15 +1,16 @@
 <template>
   <div class="profileheader">
-    <hr />
-    <header class="text-center">
-      <h1>
+    <header class="text-center"
+    style=" margin-top: 2rem; margin-bottom: 5rem; border-top: 5px solid gray; border-bottom: 5px solid gray;">
+      <h1 class='my-5'>
         <span style="text-shadow: 1px 1px 1px gray; font-size: 3rem">{{
           user.username
         }}</span
         >'s profile
       </h1>
     </header>
-    <section class="justify-center text-center shadow-sm">
+    <section class="justify-center text-center shadow-sm"
+    style="border-bottom: 2px solid gray;">
       <img
         class="shadow-lg"
         style="border-radius: 50%; width: 30%; height: 30%"
@@ -22,17 +23,16 @@
       </div>
     </section>
 
-    <hr />
+    <footer
+    class="row shadow-sm mx-3"
+    style="border-radius: 20px; border: 1px solid gray; margin-top: 3rem; margin-bottom: 5rem;"
+    >
     <span
       class="text-center m-3 text-primary"
       style="text-decoration-line: underline"
     >
       <h2><p>선호하는 장르를 선택해주세요</p></h2>
     </span>
-    <div
-      class="row shadow-sm mx-3"
-      style="border-radius: 20px; text-shadow: 1px 1px 4px grey"
-    >
       <div
         class="d-inline btn btn-primary col-2 my-3"
         style="margin-left: 3.2rem; margin-right: 3.2rem; border-radius: 20px"
@@ -44,16 +44,16 @@
         {{ genre.name }}
       </div>
       <!-- {{ userprofile }} -->
-      <hr />
-      <footer class="row my-3">
-        <div class="btn btn-secondary col-2 mx-auto" @click="logOut">
+      <hr>
+      <div class="row mt-3 mb-4">
+        <div class="btn btn-outline-info col-2 ms-auto" @click="logOut">
           LogOut
         </div>
-        <div class="btn btn-secondary col-2 mx-auto" @click="pwchange">
+        <div class="btn btn-outline-info col-2 ms-5" @click="pwchange">
           password change
         </div>
-      </footer>
-    </div>
+      </div>
+    </footer>
   </div>
 </template>
 

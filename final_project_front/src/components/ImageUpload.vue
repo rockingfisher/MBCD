@@ -2,9 +2,9 @@
   <div class="container">
     <div v-if="profileCreated">
       <hr>
-      <h1>프로필 이미지 변경</h1>
+      <h1 class="mx-5 my-4">프로필 이미지 변경</h1>
       <hr>
-      <form @submit.prevent="uploadImage">
+      <form @submit.prevent="uploadImage" class="my-5">
         <div v-if="file">
           <img :src="previewURL" alt="Selected Image" style="max-width: 300px; max-height: 300px;">
         </div>
