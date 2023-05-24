@@ -57,23 +57,25 @@
         </button>
       </div>
     </header>
-    
-    <div class="align-text-center"
-    style="margin-top: 5rem; text-decoration-color: rgba(43, 137, 224, 88); text-decoration-line: underline; text-decoration-style: double;">
-      <h1><th> 장르별 추천영화</th></h1>
+    <div
+      class="align-text-center"
+      style="
+        margin-top: 5rem;
+        text-decoration-color: rgba(43, 137, 224, 88);
+        text-decoration-line: underline;
+        text-decoration-style: double;
+      "
+    >
+      <h1><th>장르별 추천영화</th></h1>
     </div>
     <div v-for="genre in genres" :key="genre.id">
-      <GenreMovies
-        :movies = "movies"
-        :genre = genre
-        />
-
+      <GenreMovies :movies="movies" :genre="genre" />
     </div>
   </div>
 </template>
 
 <script>
-import GenreMovies from "@/components/GenreMovies.vue"
+import GenreMovies from "@/components/GenreMovies.vue";
 export default {
   name: "MovieView",
   data() {
@@ -87,7 +89,7 @@ export default {
       API_URL: "https://image.tmdb.org/t/p/original/",
     };
   },
-  components:{GenreMovies},
+  components: { GenreMovies },
   computed: {},
   methods: {
     getMovies() {

@@ -6,8 +6,6 @@ from django.shortcuts import get_object_or_404
 from .serializers import MovieSerializer
 from .models import Movie
 from datetime import datetime
-from django.contrib.auth.decorators import login_required
-from accounts.models import User, Profile
 
             
 @api_view(['GET'])
@@ -28,15 +26,5 @@ def takeGenre(request):
         
     return Response(genre)
 
-@api_view(['GET','POST'])
-def likes(request, movie_id):
-    likemovie = get_object_or_404(Movie, id=movie_id)
-    if request.method == 'POST':
-        user = request.user
-        if likemovie.like_user.filter(pk=user.pk).exists():
-            likemovie.like_user.remove(user.pk)
-            message = False
-        else:
-            likemovie.like_user.add(user.pk)
-            message = True
-        return Response({'message': message})
+
+

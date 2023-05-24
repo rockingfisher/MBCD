@@ -1,53 +1,40 @@
 <template>
-  <div class="container">
-    <hr>
+  <div>
     <div class="row my-auto">
       <header class="col-6">
-        <img :src="posterUrl" class="card-img border rounded-4 m-3 img-fluid" alt="..." />
+        <img :src="posterUrl" class="card-img border rounded-4 m-3" alt="..." />
       </header>
-      <section class="col-5 m-3 d-flex flex-column justify-content-between">
-          <div>
-            <h1 class="mt-3">
-              <th>제목: {{ movie?.title }}</th>
-            </h1>
-            <div class="my-4">
-              <h2>
-                <th class="text-warning" style="display: inline">{{ star }}</th>
-                <th style="display: inline">: {{ movie?.vote_avg }}</th>
-              </h2>
-            </div>
-            <div class="my-3">
-              <h4 style="display: inline"><th>장르 :</th></h4>
-              <span v-for="(genreName, idx) in genreNames" :key="idx" class="my-3">
-                <h5 style="display: inline" class="text-primary">
-                  <th class="">[{{ genreName }}]</th>
-                </h5>
-              </span>
-            </div>
-            <h4>
-              <th>개봉일 : {{ movie?.released_date }}</th>
-            </h4>
-            <div class="rating"></div>
-            <hr />
-            <h5>
-              <th>{{ movie?.overview }}</th>
-            </h5>
-          </div>
-          <div>
-            <hr>
-            <div class="d-flex">
-              <p class="heart fs-4">♥ : </p>
-              <div class="button mt-0 mb-0" @click="likeIt">
-                <p class="btnText">좋아요!</p>
-                <div class="btnTwo">
-                  <p class="btnText2">♥</p>
-              </div>
-            </div>
+      <section class="col-5 m-3">
+        <h1 class="mt-3">
+          <th>제목: {{ movie?.title }}</th>
+        </h1>
+        <div class="my-4">
+          <h2>
+            <th class="text-warning" style="display: inline">{{ star }}</th>
+            <th style="display: inline">: {{ movie?.vote_avg }}</th>
+          </h2>
         </div>
-          </div>
+        <div class="my-3">
+          <h4 style="display: inline"><th>장르 :</th></h4>
+          <span v-for="(genreName, idx) in genreNames" :key="idx" class="my-3">
+            <h5 style="display: inline" class="text-primary">
+              <th class="">[{{ genreName }}]</th>
+            </h5>
+          </span>
+        </div>
+
+        <h4>
+          <th>개봉일 : {{ movie?.released_date }}</th>
+        </h4>
+        <div class="rating"></div>
+        <br />
+        <h5>
+          <th>줄거리 : {{ movie?.overview }}</th>
+        </h5>
+        <br />
+        <hr />
+        <div class="youtube"></div>
       </section>
-      <hr />
-      <div class="youtube"></div>
     </div>
   </div>
 </template>
@@ -141,14 +128,26 @@ export default {
       });
       this.genreNames = genreNames;
     },
-    likeIt() {
-      const movie_id = this.movie.id
-      console.log(movie_id)
-      this.$store.dispatch('likeIt', movie_id)
+    increaseCount() {
+      if (this.movie) {
+        this.movie.genres.forEach((genre_id) => {
+          axios({
+            method: "get",
+            url: `http://127.0.0.1:8000/account/profile/increasecount/${this.user.pk}/${genre_id}/`,
+          })
+            .then(() => {
+              // console.log(res);
+              this.getProfile();
+            })
+            .catch((err) => console.log(err));
+        });
+      }
     },
-    like_count() {
-      
-    }
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
   },
   mounted() {
     this.getMovie();
@@ -165,9 +164,9 @@ export default {
     setTimeout(() => {
       this.getGenreNames();
     }, 300);
-  },
-  computed: {
-    
+    setTimeout(() => {
+      this.increaseCount();
+    }, 300);
   },
 };
 </script>
@@ -180,14 +179,5 @@ export default {
 
 iframe {
   display: block;
-}
-.heartbox {
-  height: 30px;
-}
-
-.heart {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 </style>
