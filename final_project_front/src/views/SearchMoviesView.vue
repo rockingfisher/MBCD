@@ -1,15 +1,14 @@
 <template>
-  <div class="container mb-3" style="background-color: rgba(214, 230, 245, 96)">
+  <div class="container" style="background-color: rgba(214, 230, 245, 96)">
     <!-- rgba(214, 230, 245, 96) -->
     <!-- rgba(245, 232, 213, 96) -->
     <!-- rgba(168, 147, 113, 66) -->
-    <div class="text-center my-3">
-      <h1
-        v-if="search_output"
-        style="color: white; text-shadow: 1px 1px 1px black"
-      >
+    <div class="text-center mt-3">
+      <h1 v-if="search_output" style="color:white; text-shadow: 1px 1px 1px black;">
         '{{ search_output }}' 로 검색한 결과
-        <div v-if="searchedMovies == ''" class="my-5">검색 결과가 없습니다</div>
+        <div v-if="searchedMovies==''" class="my-5">
+          검색 결과가 없습니다
+        </div>
       </h1>
     </div>
     <!-- 영화 16개 표시 -->
@@ -24,23 +23,21 @@
     <br />
     <br />
     <form @submit.prevent="search" class="d-flex justify-center" role="search">
-      <input
-        v-model="search_input"
-        class="form-control"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        style="width: 30%; margin-left: 30%"
-      />
-      <button class="btn btn-outline-info" type="submit">Search</button>
-    </form>
+        <input
+          v-model="search_input"
+          class="form-control"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          style="width: 30%; margin-left: 30%;"
+        />
+        <button class="btn btn-outline-info" type="submit">
+          Search
+        </button>
+          </form>
     <!-- 페이지 이동 -->
     <div class="btn-cover">
-      <button
-        :disabled="pageNum === 0"
-        @click="prevPage"
-        class="page-btn btn btn-primary"
-      >
+      <button :disabled="pageNum === 0" @click="prevPage" class="page-btn btn btn-primary">
         Prev
       </button>
 
@@ -49,7 +46,7 @@
       <button
         :disabled="pageNum >= pageCount - 1"
         @click="nextPage"
-        class="page-btn btn btn-primary mb-3"
+        class="page-btn btn btn-primary"
       >
         Next
       </button>
@@ -109,13 +106,13 @@ export default {
     search() {
       if (!this.search_input) {
         this.searchedMovies = this.movies;
-        this.search_output = "";
+        this.search_output = ''
         return;
       }
 
       const searchTerm = this.search_input.toLowerCase();
-      this.search_output = searchTerm;
-      this.search_input = "";
+      this.search_output = searchTerm
+      this.search_input = ''
       this.searchedMovies = this.movies.filter((movie) => {
         if (movie && movie.overview && movie.title) {
           return (
@@ -137,9 +134,10 @@ export default {
       // console.log(this.movies);
     }, 100);
     setTimeout(() => {
-      this.search_input = this.$route.params.search_input;
-      this.search();
+      this.search_input = this.$route.params.search_input
+      this.search()
     }, 200);
+
   },
 };
 </script>

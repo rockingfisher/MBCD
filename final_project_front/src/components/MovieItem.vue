@@ -1,17 +1,12 @@
 <template>
   <div
     class="col-3 align-content-center"
-    style="width: 18rem; height: 21rem; border-radius: 11%; margin: 1rem"
+    style="width: 18rem; height: 21rem; border-radius: 11%; margin: 1rem;"
   >
     <div
       class="card shadow"
-      style="
-        width: 16rem;
-        height: 19rem;
-        border-radius: 11%;
-        margin: 1rem;
-        color: white;
-      "
+      style="width: 16rem; height: 19rem; border-radius: 11%; margin: 1rem; 
+      color:white"
       @click="getMovieDetail"
       @mouseover="changOverlay"
       @mouseout="changOverlay"
@@ -21,25 +16,25 @@
         :src="PosterUrl"
         class="card-img shadow"
         alt="..."
-        style="width: 16rem; height: 19rem; border-radius: 11%"
+        style="width: 16rem; height: 19rem; border-radius: 11%;"
       />
       <div
         class="card-img-overlay shadow"
         v-show="this.overlay"
         style="width: 16rem; height: 19rem; border-radius: 11%"
       >
-        <h4 class="card-title" style="text-shadow: 1px 1px 2px black">
-          {{ movie.title }}
-        </h4>
+        <h4 class="card-title"
+        style="text-shadow: 1px 1px 2px black">{{ movie.title }}</h4>
         <h4>
           <span style="color: gold; text-shadow: 1px 1px 2px black">
-            {{ Star }} :
+            {{ Star }} : 
           </span>
           <span style="color: white; text-shadow: 1px 1px 2px black">
             {{ movie.vote_avg }}
           </span>
         </h4>
-        <p class="card-text" style="text-shadow: 1px 1px 2px black">
+        <p class="card-text"
+        style="text-shadow: 1px 1px 2px black">
           <small>{{ movie.overview.slice(0, 100) }}...</small>
         </p>
       </div>
@@ -63,10 +58,10 @@ export default {
       this.overlay = !this.overlay;
     },
     getMovieDetail() {
-        this.$router.push({
-          name: "MovieDetailView",
-          params: { movie_title: this.movie.title },
-        });
+      this.$router.push({
+        name: "MovieDetailView",
+        params: { movie_title: this.movie.title },
+      });
     },
   },
   computed: {
