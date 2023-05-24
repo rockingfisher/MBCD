@@ -1,19 +1,19 @@
 <template>
   <form @submit="createReview">
     <header class="mt-3">
-      <label for="title_input" class="ms-3"> 제&nbsp;&nbsp;목 : </label>
+      <label for="title_input" class="ms-3 custom"> 리뷰제목 : </label>
       <input
         type="text"
-        class="ms-3"
+        class="ms-3 form-control"
         id="title_input"
         style="width: 800px"
         v-model="title_input"
       />
       <hr />
-      <label for="movie_title_input" class="ms-3">영화제목 : </label>
+      <label for="movie_title_input" class="ms-3 custom">영화제목 : </label>
       <input
         type="text"
-        class="ms-3"
+        class="ms-3 form-control"
         id="movie_title_input"
         style="width: 800px"
         v-model="movie_title_input"
@@ -21,25 +21,32 @@
     </header>
     <hr />
     <section>
-      <label for="rank_input" class="ms-3"> 내 평점 : </label>
+      <label for="rank_input" class="ms-3 custom"> 내 평점 : </label>
       <input
         type="number"
         min="0"
         max="10"
-        class="ms-3"
+        class="ms-3 form-control custom"
         id="rank_input"
         v-model="rank_input"
       />
       <hr />
-      <label for="content_input"> 내용 : </label>
-      <textarea
-        id="content_input"
-        class="m-2 w-100"
-        style="width: 1200px; height: 800px"
-        v-model="content_input"
-      />
+      <label for="content_input" class="ms-3"> 리뷰내용 : </label>
+      <div class="m-2">
+        <textarea
+          id="content_input"
+          class="w-100 form-control"
+          style="min-height: 500px;"
+          v-model="content_input"
+        />
+      </div>
     </section>
-    <button class="align-self-end">게시글 작성</button>
+    <div class="button" @click="createReview">
+        <p class="btnText">리뷰 등록</p>
+        <div class="btnTwo">
+          <p class="btnText2">GO!</p>
+        </div>
+    </div>
   </form>
 </template>
 
@@ -63,7 +70,8 @@ export default {
       const content = this.content_input;
       const rank = this.rank_input;
       const movie_title = this.movie_title_input;
-
+      const user_pk = this.user.pk
+      
       if (!title) {
         alert("제목을 입력해주세요");
         return;
@@ -76,6 +84,7 @@ export default {
           content,
           rank,
           movie_title,
+          user_pk,
         },
       })
         .then((res) => {
@@ -89,7 +98,57 @@ export default {
         .catch((err) => console.log(err));
     },
   },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  }
 };
 </script>
 
-<style></style>
+<style>
+.custom {
+  width: 75px;
+}
+.button {
+  background: #3D4C53;
+  margin : 20px auto;
+  width : 200px;
+  height : 40px;
+  overflow: hidden;
+  text-align : center;
+  transition : .2s;
+  cursor : pointer;
+  border-radius: 3px;
+  box-shadow: 0px 1px 2px rgba(0,0,0,.2);
+}
+.btnTwo {
+  position : relative;
+  width : 200px;
+  height : 100px;
+  margin-top: -100px;
+  padding-top: 2px;
+  background : rgba(43, 137, 224, 88);
+  left : -250px;
+  transition : .3s;
+}
+.btnText {
+  margin-top: 9px;
+  color : white;
+  transition : .3s;
+}
+.btnText2 {
+  margin-top : 59px;
+  margin-right : -130px;
+  color : #FFF;
+}
+.button:hover .btnTwo{ /*When hovering over .button change .btnTwo*/
+  left: -130px;
+}
+.button:hover .btnText{ /*When hovering over .button change .btnText*/
+  margin-left : 65px;
+}
+.button:active { /*Clicked and held*/
+  box-shadow: 0px 5px 6px rgba(0,0,0,0.3);
+}
+</style>

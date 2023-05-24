@@ -1,10 +1,12 @@
 <template>
-  <div class="ms-3">
+  <div class="container text-bg-light">
+    <hr>
     <h1>
       <th>제목 : {{ review?.title }}</th>
     </h1>
+    <br>
     <h4>
-      <p>글 번호 : {{ review?.id }}</p>
+      <p>영화 : {{ review?.movie_title }}</p>
     </h4>
     <hr />
     <section class="h-500px">
@@ -29,12 +31,12 @@
         <hr />
       </div>
     </div> -->
-    <form @submit="createcomment">
-      <label for="comment_input">댓글 : </label>
-      <input type="text" id="comment_input" v-model="comment_input" />
-      <button @submit.prevent="createcomment">submit</button>
+    <form @submit="createcomment" class="d-flex">
+      <label for="comment_input" class="comment">댓글 : </label>
+      <input class="form-control w-100 margin10" type="text" id="comment_input" v-model="comment_input" />
+      <button class="btn btn-outline-info btn-sm" @submit.prevent="createcomment">submit</button>
     </form>
-    <hr />
+    <hr class="mt-3">
   </div>
 </template>
 
@@ -120,5 +122,19 @@ export default {
 <style>
 .h-500px {
   height: 500px;
+}
+.comment {
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.margin10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.blank {
+  margin-left: 100px;
+  margin-right: 100px;
 }
 </style>
