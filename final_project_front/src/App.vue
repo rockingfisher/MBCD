@@ -47,15 +47,6 @@
             </li>
             <li class="nav-item">
               <a class="nav-link">
-                <router-link v-if="isLogin" :to="{ name: 'ProfileView' }"
-                  >my profile</router-link
-                ><router-link v-else :to="{ name: 'LogInView' }"
-                  >Login</router-link
-                >
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">
                 <router-link :to="{ name: 'RecommendView' }"
                   >Recommend</router-link
                 ></a
@@ -75,7 +66,19 @@
                 ></a
               >
             </li>
+            <li class="nav-item">
+              <a class="nav-link">
+                <router-link v-if="isLogin" :to="{ name: 'ProfileView' }"
+                  >my profile</router-link
+                ><router-link v-else :to="{ name: 'LogInView' }"
+                  >Login</router-link
+                >
+              </a>
+            </li>
           </ul>
+          <div>
+            <img v-show="isMobile===false" v-if="profileCreated" :src="profileImageUrl" class="img" alt="err">
+          </div>
           <!-- {{ search_input }} -->
           <form
             v-if="this.$route.path !== '/search'"
@@ -114,12 +117,16 @@ export default {
       const imageName = this.userprofile.picture;
       return `http://127.0.0.1:8000${imageName}`;
     },
+    isMobile() {
+      return this.windowWidth <= 991; // 기준 넓이보다 작거나 같으면 true 반환
+    },
     ...mapGetters(["isLogin"]),
     ...mapGetters(["profileCreated"]),
   },
   data() {
     return {
       search_input: "",
+      windowWidth: 0,
     };
   },
   methods: {
@@ -133,6 +140,13 @@ export default {
         this.search_input = "";
       }
     },
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    }
+  },
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize(); // 초기화시 한 번 호출
   },
 };
 </script>
@@ -158,6 +172,14 @@ nav a {
 
 nav a.router-link-exact-active:not(.logo) {
   color: rgba(224, 155, 43, 88);
+}
+
+.img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  overflow: hidden;
+  margin-right: 10px;
 }
 
 router-link {

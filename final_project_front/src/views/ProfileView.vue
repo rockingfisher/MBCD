@@ -113,7 +113,7 @@ export default {
     },
     profileImageUrl() {
       const imageName = this.userprofile.picture;
-      return `http://127.0.0.1:8000/${imageName}`;
+      return `http://127.0.0.1:8000${imageName}`;
     },
     genres() {
       return this.$store.state.genres;

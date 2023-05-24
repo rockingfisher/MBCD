@@ -7,6 +7,7 @@ import ReviewDetailView from "@/views/ReviewDetailView";
 import MovieDetailView from "@/views/MovieDetailView";
 import SignUpView from "@/views/SignUpView";
 import ProfileView from "@/views/ProfileView";
+import AnotherProfile from "@/views/AnotherProfile";
 import LogInView from "@/views/LogInView";
 import PasswordChangeView from "@/views/PasswordChangeView";
 import CreateReviewView from "@/views/CreateReviewView";
@@ -58,6 +59,12 @@ const routes = [
     path: "/profile",
     name: "ProfileView",
     component: ProfileView,
+  },
+  {
+    path: "/anotherprofile/:user_id",
+    name: "AnotherProfile",
+    component: AnotherProfile,
+    props: true,
   },
   {
     path: "/login",
