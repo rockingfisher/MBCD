@@ -1,19 +1,17 @@
 <template>
   <div class="border text-start">
     <div class="row">
-      <th class="col-3 d-flex align-items-center"> No: {{ review.id }}</th>
+      <th class="col-3 d-inline">게시글 번호: {{ review.id }}</th>
       <router-link
         :to="{ name: 'ReviewDetailView', params: { review_id: review.id } }"
-        class="col-3 d-flex align-items-center" style="text-decoration: none"
+        class="col-3 d-inline"
       >
-        <th>{{ review.title }}</th>
+        <th>게시글 제목: {{ review.title }}</th>
       </router-link>
-      <router-link :to="{ name:'AnotherProfile', params: { user_id: review.user_id }}" class="col-3 d-flex align-items-center" style="text-decoration: none">
-        <th>{{ review.username }}</th>
-      </router-link>
-      <div class="col-3 d-flex justify-content-evenly">
-        <button class="btn btn-outline-danger " @click.prevent="deleteReview">삭제</button>
-        <button class="btn btn-outline-warning custom-color" @click.prevent="updateReview">수정</button>
+      <th class="col-3 d-inline">작성자: {{ review.username }}</th>
+      <div class="col-3">
+        <button class="col-4" @click.prevent="deleteReview">게시글 삭제</button>
+        <button class="col-4" @click.prevent="updateReview">게시글 수정</button>
       </div>
     </div>
   </div>
@@ -53,8 +51,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.custom-color {
-  border-color: rgba(224, 155, 43, 88);
-}
-</style>
+<style scoped></style>

@@ -24,4 +24,4 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = ('id', 'title','username','content','comment_set','comment_count','created_at','updated_at', 'rank', 'movie_title', 'user_id')
+        fields = ('id', 'title','username','content','comment_set','comment_count','created_at','updated_at', 'rank', 'movie_title'  )

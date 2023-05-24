@@ -1,24 +1,24 @@
 <template>
-  <div class="container">
+  <div>
     <div
       class="row"
       v-if="comment.review_id == review_id"
       v-show="!IsUpdateCommentBar"
     >
-      <th class="col-7 fix">
+      <th class="col-6">
         {{ comment.content }}
       </th>
       <th class="col-3"></th>
-      <button class="col-1 btn btn-outline-danger btn-sm" @click.prevent="deleteComment">삭제</button>
-      <button class="col-1 btn btn-outline-warning btn-sm" @click.prevent="toggle_bar">수정</button>
-      <hr class="mt-3" />
+      <button class="col-1" @click.prevent="deleteComment">삭제</button>
+      <button class="col-1" @click.prevent="toggle_bar">수정</button>
+      <hr />
     </div>
     <div class="row" v-show="IsUpdateCommentBar">
-      <input class="col-7 align-middle" type="text" v-model="content_input" />
+      <input class="col-6" type="text" v-model="content_input" />
       <th class="col-3"></th>
-      <button class="col-1 btn btn-outline-danger btn-sm" @click.prevent="deleteComment">삭제</button>
-      <button class="col-1 btn btn-outline-warning btn-sm" @click.prevent="updateComment">수정</button>
-      <hr class="mt-3"/>
+      <button class="col-1" @click.prevent="deleteComment">삭제</button>
+      <button class="col-1" @click.prevent="updateComment">수정</button>
+      <hr />
     </div>
   </div>
 </template>
@@ -88,10 +88,4 @@ export default {
 };
 </script>
 
-<style>
-.fix {
-  display: flex;
-  align-items: center;
-  justify-items: center;
-}
-</style>
+<style></style>
