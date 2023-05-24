@@ -1,14 +1,27 @@
 <template>
-  <div>
+  <div class="profileheader">
     <hr />
-    <h1>{{ user.username }}'s profile</h1>
-    <p>email : {{ user.email }}</p>
-    <img :src="profileImageUrl" alt="자비좀" />
-    <button @click="openImageUpload">Upload Image</button>
-    <hr />
-    <hr />
-    <button @click="logOut">LogOut</button>
-    <button @click="pwchange">password change</button>
+    <header class="text-center">
+      <h1>
+        <span style="text-shadow: 1px 1px 1px gray; font-size: 3rem">{{
+          user.username
+        }}</span
+        >'s profile
+      </h1>
+    </header>
+    <section class="justify-center text-center shadow-sm">
+      <img
+        class="shadow-lg"
+        style="border-radius: 50%; width: 30%; height: 30%"
+        :src="profileImageUrl"
+        alt="자비좀"
+      />
+      <p class="my-3">Email : {{ user.email }}</p>
+      <div class="btn btn-secondary mb-4" @click="openImageUpload">
+        Upload Image
+      </div>
+    </section>
+
     <hr />
     <span
       class="text-center m-3 text-primary"
@@ -21,7 +34,8 @@
       style="border-radius: 20px; text-shadow: 1px 1px 4px grey"
     >
       <div
-        class="d-inline btn btn-primary col-1 m-4"
+        class="d-inline btn btn-primary col-2 my-3"
+        style="margin-left: 3.2rem; margin-right: 3.2rem; border-radius: 20px"
         v-for="(genre, idx) in genres"
         :class="{ deactive: !userprofile[GENRES[genre.id] + '_key'] }"
         :key="idx"
@@ -30,6 +44,15 @@
         {{ genre.name }}
       </div>
       <!-- {{ userprofile }} -->
+      <hr />
+      <footer class="row my-3">
+        <div class="btn btn-secondary col-2 mx-auto" @click="logOut">
+          LogOut
+        </div>
+        <div class="btn btn-secondary col-2 mx-auto" @click="pwchange">
+          password change
+        </div>
+      </footer>
     </div>
   </div>
 </template>
@@ -125,5 +148,9 @@ export default {
 <style>
 .deactive {
   background-color: gainsboro;
+}
+.profileheader {
+  margin-left: 20rem;
+  margin-right: 20rem;
 }
 </style>
