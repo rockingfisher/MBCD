@@ -35,7 +35,7 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">
-                <router-link :to="{ name: 'MoviesView' }">Movies</router-link>
+                <router-link :to="{ name: 'MoviesView' }"></router-link>
               </a>
             </li>
             <li class="nav-item">
@@ -77,7 +77,12 @@
             </li>
           </ul>
           <!-- {{ search_input }} -->
-          <form @submit.prevent="searchMovie" class="d-flex" role="search">
+          <form
+            v-if="this.$route.path !== '/search'"
+            @submit.prevent="searchMovie"
+            class="d-flex"
+            role="search"
+          >
             <input
               v-model="search_input"
               class="form-control me-2"

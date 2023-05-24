@@ -10,6 +10,7 @@ class Genre(models.Model):
 
 
 class Movie(models.Model) :
+    total_score = models.ImageField(default=0)
     title = models.CharField(max_length=100)
     released_date = models.DateField()
     popularity = models.FloatField()

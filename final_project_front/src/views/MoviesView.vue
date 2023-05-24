@@ -57,7 +57,6 @@
         </button>
       </div>
     </header>
-
     <div
       class="align-text-center"
       style="

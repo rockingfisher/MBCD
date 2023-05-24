@@ -10,12 +10,18 @@
     <button @click="logOut">LogOut</button>
     <button @click="pwchange">password change</button>
     <hr />
-    <span class="text-center mt-3 text-primary">
-      <h1>선호하는 장르를 선택해주세요</h1>
+    <span
+      class="text-center m-3 text-primary"
+      style="text-decoration-line: underline"
+    >
+      <h2><p>선호하는 장르를 선택해주세요</p></h2>
     </span>
-    <div class="row">
+    <div
+      class="row shadow-sm mx-3"
+      style="border-radius: 20px; text-shadow: 1px 1px 4px grey"
+    >
       <div
-        class="d-inline btn btn-primary col-2 m-5"
+        class="d-inline btn btn-primary col-1 m-4"
         v-for="(genre, idx) in genres"
         :class="{ deactive: !userprofile[GENRES[genre.id] + '_key'] }"
         :key="idx"
