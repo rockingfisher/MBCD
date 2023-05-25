@@ -132,10 +132,22 @@
           </ul>
           <div class="d-flex align-items-center">
             <div v-show="isMobile===false" class="me-3">
-              <a class="nav-link align-middle">
-                <router-link v-if="isLogin" :to="{ name: 'ProfileView' }" class="no_text_deco"
-                  >My profile</router-link
-                ><router-link v-else :to="{ name: 'LogInView' }" class="no_text_deco"
+              <div v-if="isLogin" class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{ user.username }}
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item">
+                      <router-link :to="{ name: 'ProfileView' }" class="no_text_deco"
+                        >My profile</router-link>
+                    </a>
+                  </li>
+                  <li><a class="dropdown-item logout" @click="logOut">Logout</a></li>
+                </ul>
+              </div>
+              <a  v-else class="nav-link align-middle">
+                <router-link :to="{ name: 'LogInView' }" class="no_text_deco"
                   >Login</router-link
                 >
               </a>
@@ -239,6 +251,9 @@ export default {
         this.$router.go();
       }
     },
+    logOut() {
+      this.$store.dispatch("logOut");
+    },
   },
   mounted() {
     window.addEventListener("resize", this.handleResize);
@@ -281,6 +296,16 @@ nav a.router-link-exact-active:not(.logo) {
 router-link {
   color: rgba(214, 230, 245, 96);
   text-decoration: none;
+}
+
+.logout {
+  font-weight: bold;
+  color: rgba(214, 230, 245, 96);
+  text-decoration: none;
+}
+
+.logout:hover {
+  color: #0d6efd;
 }
 
 .no_text_deco {
