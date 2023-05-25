@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <hr>
-    <div class="row my-auto">
+    <div class="row my-auto justify-content-between">
       <header class="col-6">
         <img :src="posterUrl" class="card-img border rounded-4 m-3 img-fluid" alt="..." />
       </header>
@@ -36,9 +36,10 @@
           <div>
             <hr>
             <div class="d-flex">
-              <p class="heart fs-4">♥ : </p>
+              <p class="heart fs-4 ms-5">♥ : {{ likecount }}</p>
               <div class="button mt-0 mb-0" @click="likeIt">
-                <p class="btnText">좋아요!</p>
+                <p v-if="Liked" class="btnText">싫어요!</p>
+                <p v-else class="btnText">좋아요!</p>
                 <div class="btnTwo">
                   <p class="btnText2">♥</p>
               </div>
@@ -65,6 +66,8 @@ export default {
       movie: null,
       posterUrl: null,
       star: "",
+      likecount: 0,
+      Liked: null,
     };
   },
   methods: {
@@ -72,6 +75,13 @@ export default {
       this.movies.forEach((movie) => {
         if (movie.title == this.$route.params.movie_title) {
           this.movie = movie;
+          axios.get(`http://127.0.0.1:8000/movies/${this.movie.id}/likes/`)
+            .then((res) => {
+              this.likecount = res.data.like_user.length;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
           return;
         }
       });
@@ -140,14 +150,48 @@ export default {
         }
       });
       this.genreNames = genreNames;
-    },    
-    likeIt() {
-      const movie_id = this.movie.id
-      console.log(movie_id)
-      this.$store.dispatch('likeIt', movie_id)
     },
-    like_count() {
-      
+    likeIt() {
+      const payload = this.movie.id
+      const user = this.user
+      const token = this.$store.state.token;
+      const headers = {
+        Authorization: `Token ${token}`,
+      }
+      axios.post(`http://127.0.0.1:8000/movies/${payload}/likes/`, user, {headers})
+        .then((res)=>{
+          this.likecount = res.data.like_user.length
+          return res.data.like_user
+        })
+        .then((like_user)=>{
+          const userId = this.user.pk;
+          const userLiked = like_user.some((user) => user.id === userId);
+          if (userLiked) {
+            // 사용자가 좋아요를 누른 경우
+            this.Liked = true
+          } else {
+            // 사용자가 좋아요를 누르지 않은 경우
+            this.Liked = false
+          }
+        })
+        .catch(err=>console.log(err))
+    },
+    checkIfUserLiked() {
+      if (this.movie && this.movie.like_user) {
+        const userId = this.user.pk; // 사용자 식별자를 지정해야 합니다.
+        const userLiked = this.movie.like_user.some((user) => user.id === userId);
+        console.log(userId)
+        console.log(userLiked)
+        if (userLiked) {
+          // 사용자가 좋아요를 누른 경우
+          console.log('사용자가 좋아요를 눌렀습니다.');
+          this.Liked = true
+        } else {
+          // 사용자가 좋아요를 누르지 않은 경우
+          console.log('사용자가 좋아요를 누르지 않았습니다.');
+          this.Liked = false
+        }
+      }
     },
     increaseCount() {
       if (this.movie) {
@@ -188,6 +232,9 @@ export default {
     setTimeout(() => {
       this.increaseCount();
     }, 300);
+    setTimeout(()=>{
+      this.checkIfUserLiked()
+    }, 300)
   },
 };
 </script>

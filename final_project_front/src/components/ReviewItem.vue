@@ -11,10 +11,6 @@
       <router-link :to="{ name:'AnotherProfile', params: { user_id: review.user_id }}" class="col-3 d-flex align-items-center" style="text-decoration: none">
         <th>{{ review.username }}</th>
       </router-link>
-      <div class="col-3 d-flex justify-content-evenly">
-        <button class="btn btn-outline-danger " @click.prevent="deleteReview">삭제</button>
-        <button class="btn btn-outline-warning custom-color" @click.prevent="updateReview">수정</button>
-      </div>
     </div>
   </div>
 </template>

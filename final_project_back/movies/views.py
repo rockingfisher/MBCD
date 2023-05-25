@@ -35,11 +35,10 @@ def likes(request, movie_id):
         user = request.user
         if likemovie.like_user.filter(pk=user.pk).exists():
             likemovie.like_user.remove(user.pk)
-            message = False
         else:
             likemovie.like_user.add(user.pk)
-            message = True
-        return Response({'message': message})
+    serializer = MovieSerializer(likemovie)
+    return Response(serializer.data)
 
 
 

@@ -16,7 +16,6 @@ export default new Vuex.Store({
     user: null,
     userprofile: null,
     anotheruserprofile: null,
-    likeitmessage: false,
   },
   getters: {
     isLogin(state) {
@@ -26,7 +25,7 @@ export default new Vuex.Store({
       return state.userprofile ? true : false;
     },
     isLike(state) {
-      return state.likeitmessage ? true : false
+      return state.likeit ? true : false
     },
   },
   mutations: {
@@ -95,6 +94,8 @@ export default new Vuex.Store({
         })
         .catch((err) => {
           console.log(err);
+          alert(err.request.responseText.replace(/[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7A3\uFF00-\uFFEF\u3000-\u303F\u4E00-\u9FFF\u3400-\u4DBF\s]/g, '')
+          )
         });
     },
     logIn(context, payload) {
@@ -113,9 +114,6 @@ export default new Vuex.Store({
         })
         .then(() => {
           context.dispatch("getUser");
-        })
-        .catch((err) => {
-          console.log(err);
         })
         .catch((err) => {
           console.log(err);
@@ -242,19 +240,6 @@ export default new Vuex.Store({
         })
         .catch((err) => console.log(err));
     },
-    likeIt(context, payload) {
-      const user = this.state.user
-      const token = this.state.token;
-      const headers = {
-        Authorization: `Token ${token}`,
-      }
-      axios.post(`http://127.0.0.1:8000/movies/${payload}/likes/`, user, {headers})
-        .then((res)=>{
-          console.log(res)
-          context.commit('LIKE_IT')
-        })
-        .catch(err=>console.log(err))
-    }
   },
   modules: {},
 });

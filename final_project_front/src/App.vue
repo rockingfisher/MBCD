@@ -120,30 +120,27 @@
                 ></a
               >
             </li>
-            <li class="nav-item">
+            <li v-show="isMobile" class="nav-item">
               <a class="nav-link">
-                <router-link
-                  class="no_text_deco"
-                  v-if="isLogin"
-                  :to="{ name: 'ProfileView' }"
-                  >my profile</router-link
-                ><router-link
-                  class="no_text_deco"
-                  v-else
-                  :to="{ name: 'LogInView' }"
+                <router-link v-if="isLogin" :to="{ name: 'ProfileView' }" class="no_text_deco"
+                  >My profile</router-link
+                ><router-link v-else :to="{ name: 'LogInView' }" class="no_text_deco"
                   >Login</router-link
                 >
               </a>
             </li>
           </ul>
-          <div>
-            <img
-              v-show="isMobile === false"
-              v-if="profileCreated"
-              :src="profileImageUrl"
-              class="img"
-              alt="err"
-            />
+          <div class="d-flex align-items-center">
+            <div v-show="isMobile===false" class="me-3">
+              <a class="nav-link align-middle">
+                <router-link v-if="isLogin" :to="{ name: 'ProfileView' }" class="no_text_deco"
+                  >My profile</router-link
+                ><router-link v-else :to="{ name: 'LogInView' }" class="no_text_deco"
+                  >Login</router-link
+                >
+              </a>
+            </div>
+            <img v-show="isMobile===false" v-if="profileCreated" :src="profileImageUrl" class="img" alt="err">
           </div>
           <!-- {{ search_input }} -->
           <form
@@ -274,8 +271,8 @@ nav a.router-link-exact-active:not(.logo) {
 }
 
 .img {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   border-radius: 100%;
   overflow: hidden;
   margin-right: 10px;

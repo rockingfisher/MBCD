@@ -41,7 +41,14 @@ export default {
       }
       this.$store.dispatch('logIn', payload)
       setTimeout(()=>{
-        this.$router.push('/profile')
+        if (this,this.$store.state.user){
+          this.$router.push('/')
+        }
+        else {
+          alert('아이디 혹은 비밀번호가 틀렸습니다')
+          this.username = ''
+          this.password = ''
+        }
       }, 500)
       // this.$router.push('/profile')
     }, 

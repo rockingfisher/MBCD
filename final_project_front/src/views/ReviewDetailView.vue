@@ -1,9 +1,15 @@
 <template>
   <div class="container text-bg-light">
     <hr>
-    <h1>
-      <th>제목 : {{ review?.title }}</th>
-    </h1>
+    <div class="d-flex justify-content-between">
+      <h1>
+        <th>제목 : {{ review?.title }}</th>
+      </h1>
+      <div class="d-flex justify-content-evenly">
+        <button class="btn btn-outline-danger me-3" @click.prevent="deleteReview">삭제</button>
+        <button class="btn btn-outline-warning custom-color" @click.prevent="updateReview">수정</button>
+      </div>
+    </div>
     <br>
     <h4>
       <p>영화 : {{ review?.movie_title }}</p>
@@ -58,6 +64,28 @@ export default {
   },
   computed: {},
   methods: {
+      deleteReview() {
+      axios({
+        method: "delete",
+        url: `http://127.0.0.1:8000/community/reviews/${this.review.id}/`,
+      })
+        .then((res) => {
+          console.log(res.data);
+          // this.$router.go(); 
+          this.$router.push({ name: "CommunityView" });
+          // this.comments = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+          // console.log(review_id);
+        });
+    },
+    updateReview() {
+      this.$router.push({
+        name: "UpdateReviewView",
+        params: { review_id: this.review.id },
+      });
+    },
     getdetail() {
       axios({
         method: "get",
