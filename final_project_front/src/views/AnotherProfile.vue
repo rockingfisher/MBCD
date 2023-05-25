@@ -221,4 +221,7 @@ export default {
   margin-left: 23rem;
   margin-right: 23rem;
 }
+.last {
+  color: white;
+}
 </style>
