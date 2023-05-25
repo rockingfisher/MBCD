@@ -11,6 +11,9 @@
       <router-link :to="{ name:'AnotherProfile', params: { user_id: review.user_id }}" class="col-3 d-flex align-items-center" style="text-decoration: none">
         <th>{{ review.username }}</th>
       </router-link>
+      <div class="col-3 d-flex align-items-center" >
+        <th>{{ review.movie_title }}</th>
+      </div>
     </div>
   </div>
 </template>
