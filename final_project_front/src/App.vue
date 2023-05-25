@@ -1,5 +1,46 @@
 <template>
   <div id="app container">
+    <div class="sidebar" v-show="this.$route.path != '/recommend'">
+      <div class="container">
+        <div class="text-center row mt-3">
+          <img
+            style="height: 3.5rem"
+            :src="require('@/assets/images/home.png')"
+            alt="로고"
+            @click="goToHome"
+          />
+          <p style="color: white">home</p>
+        </div>
+        <div class="text-center row">
+          <img
+            style="height: 3.5rem"
+            :src="require('@/assets/images/search.png')"
+            alt="로고"
+            @click="goToSearch"
+          />
+          <p style="color: white">search</p>
+        </div>
+
+        <div class="text-center row">
+          <img
+            style="height: 3.5rem"
+            :src="require('@/assets/images/war.png')"
+            alt="로고"
+            @click="goToMovieWar"
+          />
+          <p style="color: white">war</p>
+        </div>
+        <div class="text-center row">
+          <img
+            style="height: 3.5rem"
+            :src="require('@/assets/images/up.png')"
+            alt="로고"
+            @click="scrollToTop"
+          />
+          <p style="color: white">UP</p>
+        </div>
+      </div>
+    </div>
     <nav
       class="navbar navbar-expand-lg shadow-sm"
       style="background-color: rgba(43, 137, 224, 88)"
@@ -17,8 +58,13 @@
             class="logo"
             style="text-decoration: none"
             :to="{ name: 'MoviesView' }"
-            >MBCD</router-link
           >
+            <img
+              style="height: 3.5rem"
+              :src="require('@/assets/images/logo.png')"
+              alt="로고"
+            />
+          </router-link>
         </a>
         <button
           class="navbar-toggler"
@@ -35,49 +81,69 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">
-                <router-link :to="{ name: 'MoviesView' }"></router-link>
+                <router-link class="no_text_deco" :to="{ name: 'MoviesView' }"
+                  >Home</router-link
+                >
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                <router-link :to="{ name: 'CommunityView' }"
+                <router-link
+                  class="no_text_deco"
+                  :to="{ name: 'CommunityView' }"
                   >Community</router-link
                 >
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link">
-                <router-link :to="{ name: 'RecommendView' }"
+                <router-link
+                  class="no_text_deco"
+                  :to="{ name: 'RecommendView' }"
                   >Recommend</router-link
                 ></a
               >
             </li>
             <li class="nav-item">
               <a class="nav-link">
-                <router-link :to="{ name: 'SearchMoviesView' }"
+                <router-link
+                  class="no_text_deco"
+                  :to="{ name: 'SearchMoviesView' }"
                   >SearchMovies</router-link
                 ></a
               >
             </li>
             <li class="nav-item">
               <a class="nav-link">
-                <router-link :to="{ name: 'MovieWarView' }"
+                <router-link class="no_text_deco" :to="{ name: 'MovieWarView' }"
                   >MovieWar</router-link
                 ></a
               >
             </li>
             <li class="nav-item">
               <a class="nav-link">
-                <router-link v-if="isLogin" :to="{ name: 'ProfileView' }"
+                <router-link
+                  class="no_text_deco"
+                  v-if="isLogin"
+                  :to="{ name: 'ProfileView' }"
                   >my profile</router-link
-                ><router-link v-else :to="{ name: 'LogInView' }"
+                ><router-link
+                  class="no_text_deco"
+                  v-else
+                  :to="{ name: 'LogInView' }"
                   >Login</router-link
                 >
               </a>
             </li>
           </ul>
           <div>
-            <img v-show="isMobile===false" v-if="profileCreated" :src="profileImageUrl" class="img" alt="err">
+            <img
+              v-show="isMobile === false"
+              v-if="profileCreated"
+              :src="profileImageUrl"
+              class="img"
+              alt="err"
+            />
           </div>
           <!-- {{ search_input }} -->
           <form
@@ -142,10 +208,43 @@ export default {
     },
     handleResize() {
       this.windowWidth = window.innerWidth;
-    }
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // 부드러운 스크롤을 원한다면 추가합니다.
+      });
+    },
+    goToMovieWar() {
+      if (this.$route.path !== "/moviewar") {
+        this.$router.push({
+          name: "MovieWarView",
+        });
+      } else {
+        this.$router.go();
+      }
+    },
+    goToHome() {
+      if (this.$route.path !== "/") {
+        this.$router.push({
+          name: "MoviesView",
+        });
+      } else {
+        this.$router.go();
+      }
+    },
+    goToSearch() {
+      if (this.$route.path !== "/search") {
+        this.$router.push({
+          name: "SearchMoviesView",
+        });
+      } else {
+        this.$router.go();
+      }
+    },
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);
+    window.addEventListener("resize", this.handleResize);
     this.handleResize(); // 초기화시 한 번 호출
   },
 };
@@ -185,5 +284,20 @@ nav a.router-link-exact-active:not(.logo) {
 router-link {
   color: rgba(214, 230, 245, 96);
   text-decoration: none;
+}
+
+.no_text_deco {
+  text-decoration: none;
+}
+
+.sidebar {
+  position: fixed;
+  top: 30%;
+  right: 5%;
+  width: 6rem;
+  height: 25rem;
+  border-radius: 20px;
+  box-shadow: 1px 1px 4px gray;
+  background-color: rgba(43, 137, 224, 88);
 }
 </style>

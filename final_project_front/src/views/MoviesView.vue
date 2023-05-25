@@ -4,7 +4,7 @@
     <!-- rgba(245, 232, 213, 96) -->
     <!-- rgba(168, 147, 113, 66) -->
 
-    <header class="row h-50">
+    <header class="row h-50" style="backgroud">
       <!-- {{ carousel_movies }} -->
       <div
         id="carouselExampleInterval"
@@ -15,25 +15,25 @@
           <div class="carousel-item active" data-bs-interval="3000">
             <img
               :src="carousel_movies[0]?.URL"
-              class="d-block m-auto w-50 h-50 c carousel_img"
+              class="d-block m-auto carousel_img"
               alt="..."
-              style="width: 80rem; height: 80rem"
+              style="width: 39rem; height: 52rem"
             />
           </div>
           <div class="carousel-item" data-bs-interval="3000">
             <img
               :src="carousel_movies[1]?.URL"
-              class="d-block m-auto w-50 h-50 carousel_img"
+              class="d-block m-auto carousel_img"
               alt="..."
-              style="width: 80rem; height: 80rem"
+              style="width: 39rem; height: 52rem"
             />
           </div>
           <div class="carousel-item" data-bs-interval="3000">
             <img
               :src="carousel_movies[2]?.URL"
-              class="d-block m-auto w-50 h-50 carousel_img"
+              class="d-block m-auto carousel_img"
               alt="..."
-              style="width: 80rem; height: 80rem"
+              style="width: 39rem; height: 52rem"
             />
           </div>
         </div>

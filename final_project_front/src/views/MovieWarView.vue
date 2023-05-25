@@ -23,7 +23,10 @@
       <p v-if="round > 1">VS</p>
     </div>
     <div v-if="round < 2" class="text-center">
+      <br />
+      <br />
       <router-link
+        class="mt-3"
         :to="{
           name: 'MovieDetailView',
           params: { movie_title: stack2[0].title },
