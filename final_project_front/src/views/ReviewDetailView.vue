@@ -5,7 +5,7 @@
       <h1>
         <th>제목 : {{ review?.title }}</th>
       </h1>
-      <div class="d-flex justify-content-evenly">
+      <div v-if="user?.pk === review.user_id" class="d-flex justify-content-evenly">
         <button class="btn btn-outline-danger me-3" @click.prevent="deleteReview">삭제</button>
         <button class="btn btn-outline-warning custom-color" @click.prevent="updateReview">수정</button>
       </div>
@@ -62,7 +62,11 @@ export default {
   components: {
     CommentItem,
   },
-  computed: {},
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
   methods: {
       deleteReview() {
       axios({

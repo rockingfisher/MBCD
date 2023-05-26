@@ -134,7 +134,7 @@
             <div v-show="isMobile===false" class="me-3">
               <div v-if="isLogin" class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{ user.username }}
+                  {{ user?.username }}
                 </button>
                 <ul class="dropdown-menu">
                   <li>
